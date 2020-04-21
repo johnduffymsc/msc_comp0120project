@@ -1,6 +1,10 @@
 \documentclass[10pt, a4paper]{amsart}
 
 \usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
 
 \title{COMP0120 Project - Support Vector Machines (SVMs)}
 \author{\textbf{John Duffy, Student Number: 19154676}}
@@ -14,6 +18,27 @@
 \subsection{Binary Classification}\hfill
 
 Primal Problem
+
+\begin{figure}
+	\centering	
+	\includegraphics[width=1.0\textwidth]{test_image.eps}
+	\caption{Image generation test from Jupyter Notebook.}
+\end{figure}
+
+\begin{figure}
+	\centering	
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{test_image.eps}
+		\caption{Image 1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{test_image.eps}
+		\caption{image 2}
+	\end{subfigure}
+	\caption{Image generation test from Jupyter Notebook.}
+\end{figure}
 
 Dual Problem
 
