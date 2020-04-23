@@ -15,11 +15,13 @@
 
 \section{Introduction}
 
-Suppose we have been provided with a dataset $L$ consisting of $N$ data points, each with a $x_0$ and $x_1$ value. Furthermore, suppose we have been provided with a vector $y$ of length $N$ consisting of the values $a$ and $b$, where each index of $y$ corresponds to the same index of $L$. So, each item in the dataset $L$ has an associated value $a$ or $b$. We could plot the data points of $L$ as per Figure 1. Clearly, the data points with the value $a$ are clustered together, as are those with the value $b$, they are $linearly$  $separable$.
+Suppose we have been provided with a dataset $L$ consisting of $N$ elements, each with a $x_0$ and $x_1$ value. Furthermore, suppose we have been provided with a vector $y$ of length $N$ consisting of the values $a$ and $b$, where each index of $y$ corresponds to the same index of $L$. So, each element of $L$ has an associated value $a$ or $b$ in $y$.
 
-Now suppose we wish to draw a line $l$ between the two clusters, such that additional data points without a known value can be accurately classified as being of value $a$ or $b$. This process is called \emph{linear binary classification}; \emph{linear} because we wish to separate the classes (the clusters of values $a$ and $b$) with a line, and \emph{binary} because we have two classes. This process can be extended to be $non-linear$, i.e. use a higher degree polynomial to separate the classes, and to include additional classes.  
+We could plot the elements of $L$ as per Figure 1. Clearly, the elements with the value $a$ are clustered together, as are those with the value $b$, without overlap. The elements are $linearly$  $separable$.
 
-The classification process outlined above, using a method called Support Vector Machines (SVMs), is the subject of this report.
+Now suppose we wish to draw a line $l$ between the two clusters, such that additional elements without a known value can be accurately classified as being of value $a$ or $b$. This process is called \emph{linear binary classification}; \emph{linear} because we wish to separate the classes (the clusters of values $a$ and $b$) with a line, and \emph{binary} because we have two classes. This process can be extended to be $non-linear$, i.e. use a higher degree polynomial to separate the classes, and to include additional classes.  
+
+Implementing this process using a method called Support Vector Machines (SVMs), first conceived of by Cortes and Vapnik [1], is the subject of this report.
 
 \begin{figure}
 	\centering	
@@ -27,15 +29,19 @@ The classification process outlined above, using a method called Support Vector 
 	\caption{Dataset $L$}
 \end{figure}
 
-How should we decide where to draw the line $l$? Consider Figure 2. If we used the line $l_1$ then additional data points of Class $a$ may be classified incorrectly as Class $b$. Conversely, if we used the line $l_2$ then additional data points of Class $b$ may be incorrectly classified as Class $a$.
+\section{Mathematical Setting}
+
+\subsection{Binary Classification}
+
+How should we decide where to draw the line $l$? Consider Figure 2. If we used the line $l_1$ then additional elements of Class $a$ may be incorrectly classified as Class $b$. Conversely, if we used the line $l_2$ then additional elements of Class $b$ may be incorrectly classified as Class $a$.
+
+SVMs provide a method of deciding how to draw the line $l$ (and higher degree polynomials in the non-linear case) to provide accurate classification. SVMs maximise the width $W$ of the "street" between classes, as depicted in Figure 3.
 
 \begin{figure}
 	\centering	
 	\includegraphics[width=1.0\textwidth]{intro_1.pdf}
 	\caption{Dataset $L$}
 \end{figure}
-
-SVMs, first conceived of by Cortes and Vapnik [1], provide a method of deciding how to draw the line $l$ (and higher degree polynomials in the non-linear case). SVMs maximise the width $W$ of the "street" between classes, as depicted in Figure 3.
 
 \begin{figure}
 	\centering	
@@ -46,9 +52,6 @@ SVMs, first conceived of by Cortes and Vapnik [1], provide a method of deciding 
 
 
 
-\section{Mathematical Setting - Summary}
-
-\subsection{Binary Classification}\hfill
 
 Primal Problem
 
@@ -92,17 +95,17 @@ Kernels?
 
 \subsection{Chosen Data Set}\hfill
 
-\begin{figure}
-	\centering	
-	\includegraphics[width=1.0\textwidth]{iris_sepal.pdf}
-	\caption{Iris Dataset Sepal Data}
-\end{figure}
+%\begin{figure}
+%	\centering	
+%	\includegraphics[width=1.0\textwidth]{iris_sepal.pdf}
+%	\caption{Iris Dataset Sepal Data}
+%\end{figure}
 
-\begin{figure}
-	\centering	
-	\includegraphics[width=1.0\textwidth]{iris_petal.pdf}
-	\caption{Iris Dataset Petal Data}
-\end{figure}
+%\begin{figure}
+%	\centering	
+%	\includegraphics[width=1.0\textwidth]{iris_petal.pdf}
+%	\caption{Iris Dataset Petal Data}
+%\end{figure}
 
 Challenges?
 
@@ -130,7 +133,7 @@ Challenges
 
 \section{References}
 
-[1] ???
+[1] C. Cortes, V. Vapnik, in Machine Learning, pp. 273-297 (1995)
 
 [2] ???
 
