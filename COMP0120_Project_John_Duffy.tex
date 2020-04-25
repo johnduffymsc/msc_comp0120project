@@ -1,4 +1,4 @@
-\documentclass[10pt, a4paper]{amsart}
+\documentclass[10pt, a4paper,reqno]{amsart}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -18,7 +18,7 @@
 
 Suppose we have been provided with a dataset $L$ consisting of $N$ elements, each with a $x_0$ and $x_1$ value. Furthermore, suppose we have been provided with a vector $y$ of length $N$ consisting of the values $-1$ and $+1$, where each index of $y$ corresponds to the same index of $L$. So, each element of $L$ has an associated value $-1$ or $+1$.
 
-We could plot the elements of $L$ as per Figure 1. Clearly, the elements with the value $-1$ are clustered together, as are those with the value $+1$, without overlap. The elements are $linearly$  $separable$.
+We could plot the elements of $L$ as per Figure 1. Clearly, the elements with the value $-1$ are clustered together, as are those with the value $+1$, and without overlap. The elements are $linearly$  $separable$.
 
 Now suppose we wish to draw a line $l$ between the two clusters, such that additional elements without a known value can be accurately classified as being of value $-1$ or $+1$. This process is called \emph{linear binary classification}; \emph{linear} because we wish to separate the classes (the clusters of values $-1$ and $+1$) with a line, and \emph{binary} because we have two classes. This process can be extended to be $non-linear$, i.e. use a higher degree polynomial to separate the classes, and to include additional classes.  
 
@@ -36,9 +36,11 @@ This section provides a summary of the mathematical setting for SVMs, and is bas
 
 \subsection{Linear Separable Binary Classification}
 
-Consider our dataset $L$ with $N$ elements, with each element having two \emph{features}, $x_0$ and $x_1$, i.e. of dimensionality $D = 2$, and being in Class $-1$ or Class $+1$:
+Consider our dataset $L$ with $N$ elements, with each element having two \emph{features}, $x_0$ and $x_1$, i.e. of dimensionality $D = 2$, and being in either Class $-1$ or Class $+1$:
 
-\[\{\mathbf{x}_i, y_i\}\text{ where }i = 1...L,\text{ }\mathbf{x} \in \mathbb{R}^{D},\text{ }y_i \in \{-1, +1\}\]
+\begin{equation}
+\{\mathbf{x}_i, y_i\}\text{ where }i = 1...L,\text{ }\mathbf{x} \in \mathbb{R}^{D},\text{ }y_i \in \{-1, +1\}
+\end{equation}
 
 \begin{figure}
 	\centering	
@@ -46,15 +48,17 @@ Consider our dataset $L$ with $N$ elements, with each element having two \emph{f
 	\caption{Dataset $L$}
 \end{figure}
 
-How should we decide where to draw the line $l$? Or, when $D > 2$ the hyperplane between the classes? Consider Figure 2. If we used the line $l_1$ then additional elements of Class $-1$ may be incorrectly classified as Class $+1$. Conversely, if we used the line $l_2$ then additional elements of Class $+1$ may be incorrectly classified as Class $-1$.
+How should we decide where to draw the line $l$? Or, when $D > 2$, the hyperplane between the classes? Consider Figure 2. If we used the line $l_1$ then additional elements of Class $-1$ may be incorrectly classified as Class $+1$. Conversely, if we used the line $l_2$ then additional elements of Class $+1$ may be incorrectly classified as Class $-1$.
 
 The line/hyperplane between the classes can be described by:
 
-\[\mathbf{w}\cdot\mathbf{x} + b = 0\]
+\begin{equation}
+\mathbf{w}\cdot\mathbf{x} + b = 0
+\end{equation}
 
 where $\mathbf{w}$ is normal to the hyperplane and $\frac{b}{||\mathbf{w}||}$ is the perpendicular distance to the origin.
 
-\emph{Support Vectors} are the elements of $L$ which are closest to the hyperplane, and SVMs orientate the hyperplane to be a maximum distance from all \emph{Support Vectors}. This maximises the width of the ``street" between classes, which is depicted in Figure 3.
+\emph{Support Vectors} are the elements of $L$ which are closest to the hyperplane, and SVMs orientate the hyperplane to be a maximum distance from the \emph{Support Vectors}. This maximises the width of the ``street" between classes, which is depicted in Figure 3.
 
 \begin{figure}
 	\centering	
@@ -62,26 +66,45 @@ where $\mathbf{w}$ is normal to the hyperplane and $\frac{b}{||\mathbf{w}||}$ is
 	\caption{SVM linear separation of Class $-1$ and Class $+1$ by maximising the width of the``street" between the classes.}
 \end{figure}
 
-To implement a SVM we select the variables $\mathbf{w}$ and $b$ so that out dataset $L$ can be described as:
+To implement a SVM we select the variables $\mathbf{w}$ and $b$ such that our dataset $L$ can be described as:
 
-\[\mathbf{x}_i\cdot\mathbf{w} + b \geq +1,\text{ for }y_i = +1\]
-\[\mathbf{x}_i\cdot\mathbf{w} + b \leq -1,\text{ for }y_i = -1\]
+\begin{equation}
+\mathbf{x}_i\cdot\mathbf{w} + b \geq +1,\text{ for }y_i = +1
+\end{equation}
+
+\begin{equation}
+\mathbf{x}_i\cdot\mathbf{w} + b \leq -1,\text{ for }y_i = -1
+\end{equation}
 
 which when combined yields:
 
-\[y_i(\mathbf{x}_i\cdot\mathbf{w} + b) - 1 \geq 0\text{ }\forall{i}\]
+\begin{equation}
+y_i(\mathbf{x}_i\cdot\mathbf{w} + b) - 1 \geq 0\text{ }\forall{i}
+\end{equation}
 
-To orientate the hyperplane to be as far as possible away from the \emph{Support Vectors} we need to maximise the \emph{margin}, depicted by $d_1$ and $d_2$ on Figure 3.
+To orientate the hyperplane to be as far away as possible from the \emph{Support Vectors} we need to maximise the \emph{margin}, depicted by $d_1$ and $d_2$ on Figure 3.
 
 By geometry, the \emph{margin} is $\frac{1}{||\mathbf{w}||}$. So, maximising the \emph{margin} is equivalent to minimising $||\mathbf{w}||$, which is equivalent to minimising $\frac{1}{2}||\mathbf{w}||^2$. This is convenient from an optimisation formulation perspective.
 
-So, we can formulate the problem of finding $\mathbf{w}$ and $b$ as:
+So, we can formulate the problem of finding $\mathbf{w}$ and $b$ as the optimisation problem:
 
-\[min\frac{1}{2}||\mathbf{w}||^2\text{, such that }y_i(\mathbf{x}_i\cdot\mathbf{w} + b) - 1 \geq 0\text{ }\forall{i}\]
+\begin{equation}
+min\frac{1}{2}||\mathbf{w}||^2\text{, such that }y_i(\mathbf{x}_i\cdot\mathbf{w} + b) - 1 \geq 0\text{ }\forall{i}
+\end{equation}
+
+This is an optimisation problem with a convex quadratic objective function and linear constraints.
 
 \subsection{Primal Problem}
 
-To recap, the...
+To solve this optimisation problem using the Lagrangian Multiplier method we include in (6) each constraint with it's associated multiplier ($\alpha_i \geq 0, \forall i$).
+
+\begin{equation}
+\mathcal{L}_P \equiv \frac{1}{2}||\mathbf{w}||^2 - \sum_{i=1}^{L}\alpha_i[y_i(\mathbf{x}_i\cdot\mathbf{w} + b) - 1]
+\end{equation}
+
+\begin{equation}
+\mathcal{L}_P \equiv \frac{1}{2}||\mathbf{w}||^2 - \sum_{i=1}^{L}\alpha_i(y_i(\mathbf{x}_i\cdot\mathbf{w} + b) + \sum_{i=1}^{L}\alpha_i
+\end{equation}
 
 \subsection{Dual Problem}
 
@@ -172,14 +195,14 @@ Challenges
 
 \section{References}
 
-[1] C. Cortes, V. Vapnik, in Machine Learning, pp. 273-297 (1995)
+[1] C. Cortes, V. Vapnik, in Machine Learning, pp. 273-297 (1995).
 
-[2] Fletcher...
+[2] T. Fletcher, Support Vector Machines Explained, March 1, 2009.
 
-[3] Ng...
+[3] A. Ng, CS229 Lecture Notes Part V, Support Vector Machines.
 
-[4] ??? Hands On...
+[4] A. G\'{e}ron, Hands-On Machine Learning with Scikit-Learn, Keras \& TensorFlow, Second Edition.
 
-[4] Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
+[5] Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
 
 \end{document}
