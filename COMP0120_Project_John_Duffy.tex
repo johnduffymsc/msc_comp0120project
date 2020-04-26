@@ -92,9 +92,9 @@ So, we can formulate the problem of finding $\mathbf{w}$ and $b$ as the optimisa
 min\frac{1}{2}||\mathbf{w}||^2\text{, such that }y_i(\mathbf{x}_i\cdot\mathbf{w} + b) - 1 \geq 0\text{ }\forall{i}
 \end{equation}
 
-This is an optimisation problem with a convex quadratic objective function and linear constraints.
+This is an optimisation problem with a convex quadratic objective function and linear constraints. This is called the \emph{primal} optimisation problem.
 
-\subsection{Primal Problem}
+\subsection{Solving the Primal Problem}
 
 To solve this optimisation problem using the Lagrangian Multiplier method we include in (6) each constraint with it's associated multiplier ($\alpha_i \geq 0, \forall i$).
 
