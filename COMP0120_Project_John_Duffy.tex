@@ -32,7 +32,7 @@ Implementing this process using a method called Support Vector Machines (SVMs), 
 
 \section{Mathematical Setting}
 
-This section provides a summary of the mathematical setting for SVMs, and is based on \emph{Support Vector Machines Explained} by Tristan Fletcher [2], \emph{CS229 Lecture Notes, Support Vector Machines} by Andrew Ng [3], and Aur\'{e}lien G\'{e}ron's \emph{Hands on Machine Learning with Scikit-Learn, Keras \& TensorFlow}[4].
+This section provides a summary of the mathematical setting for SVMs, and is based on \emph{Support Vector Machines Explained} by Tristan Fletcher [2], \emph{CS229 Lecture Notes, Support Vector Machines} by Andrew Ng [3], Aur\'{e}lien G\'{e}ron's \emph{Hands on Machine Learning with Scikit-Learn, Keras \& TensorFlow}[4], R. Berwick's \emph{An Idiot's Guide to Support Vector Machines}[5].
 
 \subsection{Linear Separable Binary Classification}
 
@@ -92,21 +92,58 @@ So, we can formulate the problem of finding $\mathbf{w}$ and $b$ as the optimisa
 min\frac{1}{2}||\mathbf{w}||^2\text{, such that }y_i(\mathbf{x}_i\cdot\mathbf{w} + b) - 1 \geq 0\text{ }\forall{i}
 \end{equation}
 
-This is an optimisation problem with a convex quadratic objective function and linear constraints. This is called the \emph{primal} optimisation problem.
+This is an optimisation problem with a convex quadratic objective function and linear constraints.
+\subsection{Primal Problem}
 
-\subsection{Solving the Primal Problem}
-
-To solve this optimisation problem using the Lagrangian Multiplier method we include in (6) each constraint with it's associated multiplier ($\alpha_i \geq 0, \forall i$).
+The Lagrangian of the optimisation problem includes in equation (6) each constraint with it's associated multiplier ($\alpha_i \geq 0, \forall i$):
 
 \begin{equation}
-\mathcal{L}_P \equiv \frac{1}{2}||\mathbf{w}||^2 - \sum_{i=1}^{L}\alpha_i[y_i(\mathbf{x}_i\cdot\mathbf{w} + b) - 1]
+min\mathcal{L}_P(\mathbf{w}, b, \alpha) = \frac{1}{2}||\mathbf{w}||^2 - \sum_{i=1}^{L}\alpha_i[y_i(\mathbf{x}_i\cdot\mathbf{w} + b) - 1]
 \end{equation}
 
 \begin{equation}
-\mathcal{L}_P \equiv \frac{1}{2}||\mathbf{w}||^2 - \sum_{i=1}^{L}\alpha_i(y_i(\mathbf{x}_i\cdot\mathbf{w} + b) + \sum_{i=1}^{L}\alpha_i
+min\mathcal{L}_P(\mathbf{w}, b, \alpha) = \frac{1}{2}||\mathbf{w}||^2 - \sum_{i=1}^{L}\alpha_i y_i(\mathbf{x}_i\cdot\mathbf{w} + b) + \sum_{i=1}^{L}\alpha_i
 \end{equation}
+
+Setting the derivatives of $\mathcal{L}_P$ with respect to $\mathbf{w}$ and $b$ to zero:
+
+\begin{equation}
+\frac{\partial \mathcal{L}_P}{\partial \mathbf{w}} = \mathbf{w} -  \sum_{i=1}^{L}\alpha_i y_i \mathbf{x}_i = 0
+\end{equation}
+ 
+\begin{equation}
+\frac{\partial \mathcal{L}_P}{\partial b} = \sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
+
+which yields:
+
+\begin{equation}
+\mathbf{w} = \sum_{i=1}^{L}\alpha_i y_i \mathbf{x}_i
+\end{equation}
+
+\begin{equation}
+\sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
+
+The Lagrangian is called the \emph{primal} form of the optimisation problem, or \emph{primal} problem, indicated by the $P$ subscript, $\mathcal{L}_P$.
 
 \subsection{Dual Problem}
+
+Whereas the \emph{primal} problem seeks to minimises $\mathcal{L}_P(\mathbf{w}, b, \alpha)$, the \emph{dual} problem seeks to maximise $\mathcal{L}_D(\alpha)$, where $\alpha$ is the $\emph{dual}$ variable[5], using the previously determined relations of equations (11) and (12).
+
+So, substituting (11) and (12) into (8) yields:
+
+\begin{equation}
+max\mathcal{L}_D(\alpha) = \sum_{i=1}^{L}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\mathbf{x}_i\cdot\mathbf{x}_j - b\sum_{i=1}^{L}\alpha_i y_i
+\end{equation}
+
+From (12), the final term is zero, so the \emph{dual} problem simplifies to:
+
+\begin{equation}
+max\mathcal{L}_D(\alpha) = \sum_{i=1}^{L}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\mathbf{x}_i\cdot\mathbf{x}_j
+\end{equation}
+
+
 
 %\begin{figure}
 %	\centering	
@@ -192,6 +229,8 @@ Challenges
 
 [4] A. G\'{e}ron, Hands-On Machine Learning with Scikit-Learn, Keras \& TensorFlow, Second Edition.
 
-[5] Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
+[5] R. Berwick, An Idiot's Guide to Support Vector Machines.
+
+[6] Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
 
 \end{document}
