@@ -131,7 +131,7 @@ The Lagrangian is called the \emph{primal} form of the optimisation problem, or 
 
 Whereas the \emph{primal} problem seeks to minimises $\mathcal{L}_P(\mathbf{w}, b, \alpha)$, the \emph{dual} problem seeks to maximise $\mathcal{L}_D(\alpha)$, where $\alpha$ is the $\emph{dual}$ variable[5], using the previously determined relations of equations (11) and (12).
 
-So, substituting (11) and (12) into (8) yields:
+Substituting (11) and (12) into (8) yields:
 
 \begin{equation}
 max\mathcal{L}_D(\alpha) = \sum_{i=1}^{L}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\mathbf{x}_i\cdot\mathbf{x}_j - b\sum_{i=1}^{L}\alpha_i y_i
@@ -143,6 +143,17 @@ From (12), the final term is zero, so the \emph{dual} problem simplifies to:
 max\mathcal{L}_D(\alpha) = \sum_{i=1}^{L}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\mathbf{x}_i\cdot\mathbf{x}_j
 \end{equation}
 
+\begin{equation}
+\text{such that }\alpha_i\geq0\text{ }\forall{i}\text{, }\sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
+
+So, what have we achieved? We have removed the dependency on $\mathbf{w}$ and $b$ from $\mathcal{L}_D(\alpha)$. We can now maximise $\mathcal{L}_D(\alpha)$, subject to the constraints, and then plug the resultant $\alpha$ into (11) to find $\mathbf{w}$. And subsequenty find $b$.
+
+Importantly, the \emph{dual} problem is only dependent upon $y_i$ and the dot products $\mathbf{x}_i\cdot\mathbf{x}_j$. This results in efficient computation and can be exploited when considering non-linear classification.
+
+\subsection{Non-Linear Classification}
+
+Kernels?
 
 
 %\begin{figure}
@@ -172,10 +183,6 @@ More classes?
 Different Penalty Functions?
 
 Algorithms not on syllabus?
-
-\subsection{Non-Linear Classification}
-
-Kernels?
 
 \section{Simulation Study}
 
