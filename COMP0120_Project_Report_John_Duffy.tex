@@ -1,0 +1,243 @@
+\documentclass[10pt, a4paper,reqno]{amsart}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\title{COMP0120 Project - Support Vector Machines (SVM\MakeLowercase{s})}
+\author{\textbf{John Duffy, Student Number: 19154676}}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Suppose we have been provided with a dataset $L$ consisting of $N$ elements, each with a $x_0$ and $x_1$ value. Furthermore, suppose we have been provided with a vector $y$ of length $N$ consisting of the values $-1$ and $+1$, where each index of $y$ corresponds to the same index of $L$. So, each element of $L$ has an associated value $-1$ or $+1$.
+
+We could plot the elements of $L$ as per Figure 1. Clearly, the elements with the value $-1$ are clustered together, as are those with the value $+1$, and without overlap. The elements are $linearly$  $separable$.
+
+Now suppose we wish to draw a line $l$ between the two clusters, such that additional elements without a known value can be accurately classified as being of value $-1$ or $+1$. This process is called \emph{linear binary classification}; \emph{linear} because we wish to separate the classes (the clusters of values $-1$ and $+1$) with a line, and \emph{binary} because we have two classes. This process can be extended to be $non-linear$, i.e. use a higher degree polynomial to separate the classes, and to include additional classes.  
+
+Implementing this process using a method called Support Vector Machines (SVMs), first conceived of by Cortes and Vapnik [1], is the subject of this report.
+
+\begin{figure}
+	\centering	
+	\includegraphics[width=1.0\textwidth]{intro_0.pdf}
+	\caption{Dataset $L$}
+\end{figure}
+
+\section{Mathematical Setting}
+
+This section provides a summary of the mathematical setting for SVMs, and is based on \emph{Support Vector Machines Explained} by Tristan Fletcher [2], \emph{CS229 Lecture Notes, Support Vector Machines} by Andrew Ng [3], Aur\'{e}lien G\'{e}ron's \emph{Hands on Machine Learning with Scikit-Learn, Keras \& TensorFlow}[4], R. Berwick's \emph{An Idiot's Guide to Support Vector Machines}[5].
+
+\subsection{Linear Separable Binary Classification}
+
+Consider our dataset $L$ with $N$ elements, with each element having two \emph{features}, $x_0$ and $x_1$, i.e. of dimensionality $D = 2$, and being in either Class $-1$ or Class $+1$:
+
+\begin{equation}
+\{\mathbf{x}_i, y_i\}\text{ where }i = 1...L,\text{ }\mathbf{x} \in \mathbb{R}^{D},\text{ }y_i \in \{-1, +1\}
+\end{equation}
+
+\begin{figure}
+	\centering	
+	\includegraphics[width=1.0\textwidth]{intro_1.pdf}
+	\caption{Dataset $L$}
+\end{figure}
+
+How should we decide where to draw the line $l$? Or, when $D > 2$, the hyperplane between the classes? Consider Figure 2. If we used the line $l_1$ then additional elements of Class $-1$ may be incorrectly classified as Class $+1$. Conversely, if we used the line $l_2$ then additional elements of Class $+1$ may be incorrectly classified as Class $-1$.
+
+The line/hyperplane between the classes can be described by:
+
+\begin{equation}
+\mathbf{w}\cdot\mathbf{x} + b = 0
+\end{equation}
+
+where $\mathbf{w}$ is normal to the hyperplane and $\frac{b}{||\mathbf{w}||}$ is the perpendicular distance to the origin.
+
+\emph{Support Vectors} are the elements of $L$ which are closest to the hyperplane, and SVMs orientate the hyperplane to be a maximum distance from the \emph{Support Vectors}. This maximises the width of the ``street" between classes, which is depicted in Figure 3.
+
+\begin{figure}
+	\centering	
+	\includegraphics[width=1.0\textwidth]{intro_2.pdf}
+	\caption{SVM linear separation of Class $-1$ and Class $+1$ by maximising the width of the``street" between the classes.}
+\end{figure}
+
+To implement a SVM we select the variables $\mathbf{w}$ and $b$ such that our dataset $L$ can be described as:
+
+\begin{equation}
+\mathbf{x}_i\cdot\mathbf{w} + b \geq +1,\text{ for }y_i = +1
+\end{equation}
+
+\begin{equation}
+\mathbf{x}_i\cdot\mathbf{w} + b \leq -1,\text{ for }y_i = -1
+\end{equation}
+
+which when combined yields:
+
+\begin{equation}
+y_i(\mathbf{x}_i\cdot\mathbf{w} + b) - 1 \geq 0\text{ }\forall{i}
+\end{equation}
+
+To orientate the hyperplane to be as far away as possible from the \emph{Support Vectors} we need to maximise the \emph{margin}, depicted by $d_1$ and $d_2$ on Figure 3.
+
+By geometry, the \emph{margin} is $\frac{1}{||\mathbf{w}||}$. So, maximising the \emph{margin} is equivalent to minimising $||\mathbf{w}||$, which is equivalent to minimising $\frac{1}{2}||\mathbf{w}||^2$. This is convenient from an optimisation formulation perspective.
+
+So, we can formulate the problem of finding $\mathbf{w}$ and $b$ as the optimisation problem:
+
+\begin{equation}
+min\frac{1}{2}||\mathbf{w}||^2\text{, such that }y_i(\mathbf{x}_i\cdot\mathbf{w} + b) - 1 \geq 0\text{ }\forall{i}
+\end{equation}
+
+This is an optimisation problem with a convex quadratic objective function and linear constraints.
+\subsection{Primal Problem}
+
+The Lagrangian of the optimisation problem includes in equation (6) each constraint with it's associated multiplier ($\alpha_i \geq 0, \forall i$):
+
+\begin{equation}
+min\mathcal{L}_P(\mathbf{w}, b, \alpha) = \frac{1}{2}||\mathbf{w}||^2 - \sum_{i=1}^{L}\alpha_i[y_i(\mathbf{x}_i\cdot\mathbf{w} + b) - 1]
+\end{equation}
+
+\begin{equation}
+min\mathcal{L}_P(\mathbf{w}, b, \alpha) = \frac{1}{2}||\mathbf{w}||^2 - \sum_{i=1}^{L}\alpha_i y_i(\mathbf{x}_i\cdot\mathbf{w} + b) + \sum_{i=1}^{L}\alpha_i
+\end{equation}
+
+Setting the derivatives of $\mathcal{L}_P$ with respect to $\mathbf{w}$ and $b$ to zero:
+
+\begin{equation}
+\frac{\partial \mathcal{L}_P}{\partial \mathbf{w}} = \mathbf{w} -  \sum_{i=1}^{L}\alpha_i y_i \mathbf{x}_i = 0
+\end{equation}
+ 
+\begin{equation}
+\frac{\partial \mathcal{L}_P}{\partial b} = \sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
+
+which yields:
+
+\begin{equation}
+\mathbf{w} = \sum_{i=1}^{L}\alpha_i y_i \mathbf{x}_i
+\end{equation}
+
+\begin{equation}
+\sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
+
+The Lagrangian is called the \emph{primal} form of the optimisation problem, or \emph{primal} problem, indicated by the $P$ subscript, $\mathcal{L}_P$.
+
+\subsection{Dual Problem}
+
+Whereas the \emph{primal} problem seeks to minimises $\mathcal{L}_P(\mathbf{w}, b, \alpha)$, the \emph{dual} problem seeks to maximise $\mathcal{L}_D(\alpha)$, where $\alpha$ is the $\emph{dual}$ variable[5], using the previously determined relations of equations (11) and (12).
+
+Substituting (11) and (12) into (8) yields:
+
+\begin{equation}
+max\mathcal{L}_D(\alpha) = \sum_{i=1}^{L}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\mathbf{x}_i\cdot\mathbf{x}_j - b\sum_{i=1}^{L}\alpha_i y_i
+\end{equation}
+
+From (12), the final term is zero, so the \emph{dual} problem simplifies to:
+
+\begin{equation}
+max\mathcal{L}_D(\alpha) = \sum_{i=1}^{L}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\mathbf{x}_i\cdot\mathbf{x}_j
+\end{equation}
+
+\begin{equation}
+\text{such that }\alpha_i\geq0\text{ }\forall{i}\text{, }\sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
+
+So, what have we achieved? We have removed the dependency on $\mathbf{w}$ and $b$ from $\mathcal{L}_D(\alpha)$. We can now maximise $\mathcal{L}_D(\alpha)$, subject to the constraints, and then plug the resultant $\alpha$ into (11) to find $\mathbf{w}$. And subsequenty find $b$.
+
+Importantly, the \emph{dual} problem is only dependent upon $y_i$ and the dot products $\mathbf{x}_i\cdot\mathbf{x}_j$. This results in efficient computation and can be exploited when considering non-linear classification.
+
+\subsection{Non-Linear Classification}
+
+Kernels?
+
+
+%\begin{figure}
+%	\centering	
+%
+%	\begin{subfigure}{0.5\textwidth}
+%		\centering
+%		\includegraphics[width=1.0\textwidth]{iris_sepal.eps}
+%		\caption{Image 1}
+%	\end{subfigure}%
+%	\begin{subfigure}{0.5\textwidth}
+%		\centering
+%		\includegraphics[width=1.0\textwidth]{iris_petal.eps}
+%		\caption{image 2}
+%	\end{subfigure}
+%	\caption{Iris Dataset Petal Data}
+%\end{figure}
+
+\subsection{Hard Margin}
+
+\subsection{Soft Margin}
+
+\subsection{Challenge!}
+
+More classes?
+
+Different Penalty Functions?
+
+Algorithms not on syllabus?
+
+\section{Simulation Study}
+
+The subject of this project is to consider two different kernels for non-linear classification
+
+\subsection{Chosen Data Set}
+
+%\begin{figure}
+%	\centering	
+%	\includegraphics[width=1.0\textwidth]{iris_sepal.pdf}
+%	\caption{Iris Dataset Sepal Data}
+%\end{figure}
+
+%\begin{figure}
+%	\centering	
+%	\includegraphics[width=1.0\textwidth]{iris_petal.pdf}
+%	\caption{Iris Dataset Petal Data}
+%\end{figure}
+
+Challenges?
+
+How to address?
+
+\subsection{Resulting Optimisation Problem}
+
+Convex/Non-Convex
+
+Constrained/Unconstrained
+
+Smooth/Non-Smooth
+
+Linear/Quadratic/Non-Linear
+
+Challenges
+
+
+\section{Solution of Optimisation Problem}
+
+\subsection{Algorithm 1}\hfill
+
+\subsection{Algorithm 2}\hfill
+
+
+\section{References}
+
+[1] C. Cortes, V. Vapnik, in Machine Learning, pp. 273-297 (1995).
+
+[2] T. Fletcher, Support Vector Machines Explained, March 1, 2009.
+
+[3] A. Ng, CS229 Lecture Notes Part V, Support Vector Machines.
+
+[4] A. G\'{e}ron, Hands-On Machine Learning with Scikit-Learn, Keras \& TensorFlow, Second Edition.
+
+[5] R. Berwick, An Idiot's Guide to Support Vector Machines.
+
+[6] Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
+
+\end{document}
