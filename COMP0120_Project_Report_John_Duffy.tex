@@ -149,7 +149,7 @@ max\mathcal{L}_D(\alpha) = \sum_{i=1}^{L}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{L}\
 
 So, what have we achieved? We have removed the dependency on $\mathbf{w}$ and $b$ from $\mathcal{L}_D(\alpha)$. We can now maximise $\mathcal{L}_D(\alpha)$, subject to the constraints, and then plug the resultant $\alpha$ into (11) to find $\mathbf{w}$. And subsequenty find $b$.
 
-Importantly, the \emph{dual} problem is only dependent upon $y_i$ and the dot products $\mathbf{x}_i\cdot\mathbf{x}_j$. This results in efficient computation and can be exploited when considering non-linear classification.
+Importantly, the \emph{dual} problem is only dependent upon $y_i$ and the dot products $\mathbf{x}_i\cdot\mathbf{x}_j$. This can be exploited when considering non-linear classification.
 
 \subsection{Non-Linear Classification}
 
