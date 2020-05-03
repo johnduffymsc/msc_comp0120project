@@ -156,21 +156,7 @@ Importantly, the \emph{dual} problem is only dependent upon $y_i$ and the dot pr
 Kernels?
 
 
-%\begin{figure}
-%	\centering	
-%
-%	\begin{subfigure}{0.5\textwidth}
-%		\centering
-%		\includegraphics[width=1.0\textwidth]{iris_sepal.eps}
-%		\caption{Image 1}
-%	\end{subfigure}%
-%	\begin{subfigure}{0.5\textwidth}
-%		\centering
-%		\includegraphics[width=1.0\textwidth]{iris_petal.eps}
-%		\caption{image 2}
-%	\end{subfigure}
-%	\caption{Iris Dataset Petal Data}
-%\end{figure}
+
 
 \subsection{Hard Margin}
 
@@ -219,12 +205,207 @@ Linear/Quadratic/Non-Linear
 Challenges
 
 
-\section{Solution of Optimisation Problem}
+\section{Solution of Linear Optimisation Problem}
 
 \subsection{Algorithm 1}\hfill
 
 \subsection{Algorithm 2}\hfill
 
+\begin{figure}
+	\centering	
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{linear_svm_qp_0.pdf}
+		\caption{Image 1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{linear_svm_qp_1.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{linear_svm_qp_2.pdf}
+		\caption{Image 1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{linear_svm_qp_3.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\caption{Linear SVM}
+\end{figure}
+
+\begin{figure}
+	\centering	
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_2_0.pdf}
+		\caption{Image 1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_2_1.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_2_2.pdf}
+		\caption{Image 1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_2_3.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_2_4.pdf}
+		\caption{Image 1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_2_5.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\caption{Linear SVM - Randomly generated 2 points}
+\end{figure}
+
+\begin{figure}
+	\centering	
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_3_0.pdf}
+		\caption{Image 1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_3_1.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_3_2.pdf}
+		\caption{Image 1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_3_3.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_3_4.pdf}
+		\caption{Image 1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_3_5.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\caption{Linear SVM - Randomly generated 3 points}
+\end{figure}
+
+\section{Solution of Linear Optimisation Problem}
+
+\subsection{Algorithm 1}\hfill
+
+\subsection{Algorithm 2}\hfill
+
+\begin{figure}
+	\centering	
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_qp_0.pdf}
+		\caption{Image 1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_qp_1.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_qp_2.pdf}
+		\caption{Image 1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_qp_3.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\caption{Non-Linear SVM}
+\end{figure}
+
+\begin{figure}
+	\centering	
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_4_0.pdf}
+		\caption{Image 1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_4_1.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_4_2.pdf}
+		\caption{Image 1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_4_3.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_4_4.pdf}
+		\caption{Image 1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_4_5.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\caption{Non-Linear SVM - Randomly generated 4 points}
+\end{figure}
+
+\begin{figure}
+	\centering	
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_8_0.pdf}
+		\caption{Image 1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_8_1.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_8_2.pdf}
+		\caption{Image 1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_8_3.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_8_4.pdf}
+		\caption{Image 1}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_8_5.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\caption{Non-Linear SVM - Randomly generated 8 points}
+\end{figure}
 
 \section{References}
 
