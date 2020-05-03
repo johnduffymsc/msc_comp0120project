@@ -1,4 +1,5 @@
 \documentclass[10pt, a4paper,reqno]{amsart}
+%\documentclass[10pt, a4paper,reqno]{amsart}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -24,7 +25,7 @@ Now suppose we wish to draw a line $l$ between the two clusters, such that addit
 
 Implementing this process using a method called Support Vector Machines (SVMs), first conceived of by Cortes and Vapnik [1], is the subject of this report.
 
-\begin{figure}
+\begin{figure}[H]
 	\centering	
 	\includegraphics[width=1.0\textwidth]{intro_0.pdf}
 	\caption{Dataset $L$}
@@ -42,7 +43,7 @@ Consider our dataset $L$ with $N$ elements, with each element having two \emph{f
 \{\mathbf{x}_i, y_i\}\text{ where }i = 1...L,\text{ }\mathbf{x} \in \mathbb{R}^{D},\text{ }y_i \in \{-1, +1\}
 \end{equation}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering	
 	\includegraphics[width=1.0\textwidth]{intro_1.pdf}
 	\caption{Dataset $L$}
@@ -125,11 +126,11 @@ which yields:
 \sum_{i=1}^{L}\alpha_i y_i = 0
 \end{equation}
 
-The Lagrangian is called the \emph{primal} form of the optimisation problem, or \emph{primal} problem, indicated by the $P$ subscript, $\mathcal{L}_P$.
+The Lagrangian is called the \emph{primal} form of the optimisation problem, or \emph{primal problem}, indicated by the $P$ subscript, $\mathcal{L}_P$.
 
 \subsection{Dual Problem}
 
-Whereas the \emph{primal} problem seeks to minimises $\mathcal{L}_P(\mathbf{w}, b, \alpha)$, the \emph{dual} problem seeks to maximise $\mathcal{L}_D(\alpha)$, where $\alpha$ is the $\emph{dual}$ variable[5], using the previously determined relations of equations (11) and (12).
+Whereas the \emph{primal problem} seeks to minimises $\mathcal{L}_P(\mathbf{w}, b, \alpha)$, the \emph{dual problem} seeks to maximise $\mathcal{L}_D(\alpha)$, where $\alpha$ is the $\emph{dual}$ variable[5], using the previously determined relations of equations (11) and (12).
 
 Substituting (11) and (12) into (8) yields:
 
@@ -137,7 +138,7 @@ Substituting (11) and (12) into (8) yields:
 max\mathcal{L}_D(\alpha) = \sum_{i=1}^{L}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\mathbf{x}_i\cdot\mathbf{x}_j - b\sum_{i=1}^{L}\alpha_i y_i
 \end{equation}
 
-From (12), the final term is zero, so the \emph{dual} problem simplifies to:
+From (12), the final term is zero, so the \emph{dual problem} simplifies to:
 
 \begin{equation}
 max\mathcal{L}_D(\alpha) = \sum_{i=1}^{L}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\mathbf{x}_i\cdot\mathbf{x}_j
@@ -149,7 +150,7 @@ max\mathcal{L}_D(\alpha) = \sum_{i=1}^{L}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{L}\
 
 So, what have we achieved? We have removed the dependency on $\mathbf{w}$ and $b$ from $\mathcal{L}_D(\alpha)$. We can now maximise $\mathcal{L}_D(\alpha)$, subject to the constraints, and then plug the resultant $\alpha$ into (11) to find $\mathbf{w}$. And subsequenty find $b$.
 
-Importantly, the \emph{dual} problem is only dependent upon $y_i$ and the dot products $\mathbf{x}_i\cdot\mathbf{x}_j$. This can be exploited when considering non-linear classification.
+Importantly, the \emph{dual problem} is only dependent upon $y_i$ and the dot products $\mathbf{x}_i\cdot\mathbf{x}_j$. This can be exploited when considering non-linear classification.
 
 \subsection{Non-Linear Classification}
 
@@ -194,6 +195,36 @@ How to address?
 
 \subsection{Resulting Optimisation Problem}
 
+\begin{figure}[H]
+	\centering	
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[width=0.75\textwidth]{linear_problem_data_0.pdf}
+		\caption{Image 1}
+	\end{subfigure}
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[width=0.75\textwidth]{linear_problem_dual_0.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\caption{Linear SVM}
+\end{figure}
+
+\begin{figure}[H]
+	\centering	
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[width=0.75\textwidth]{linear_problem_data_1.pdf}
+		\caption{Image 1}
+	\end{subfigure}
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[width=0.75\textwidth]{linear_problem_dual_1.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\caption{Linear SVM}
+\end{figure}
+
 Convex/Non-Convex
 
 Constrained/Unconstrained
@@ -209,9 +240,24 @@ Challenges
 
 \subsection{Algorithm 1}\hfill
 
+\begin{figure}[H]
+	\centering	
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[width=0.75\textwidth]{linear_problem_dual_0.pdf}
+		\caption{Image 1}
+	\end{subfigure}
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[width=0.75\textwidth]{linear_problem_dual_1.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\caption{Linear SVM}
+\end{figure}
+
 \subsection{Algorithm 2}\hfill
 
-\begin{figure}
+\begin{figure}[H]
 	\centering	
 	\begin{subfigure}{0.5\textwidth}
 		\centering
@@ -236,7 +282,7 @@ Challenges
 	\caption{Linear SVM}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering	
 	\begin{subfigure}{0.5\textwidth}
 		\centering
@@ -271,7 +317,7 @@ Challenges
 	\caption{Linear SVM - Randomly generated 2 points}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering	
 	\begin{subfigure}{0.5\textwidth}
 		\centering
@@ -306,13 +352,14 @@ Challenges
 	\caption{Linear SVM - Randomly generated 3 points}
 \end{figure}
 
-\section{Solution of Linear Optimisation Problem}
+
+\section{Solution of Non-Linear Optimisation Problem}
 
 \subsection{Algorithm 1}\hfill
 
 \subsection{Algorithm 2}\hfill
 
-\begin{figure}
+\begin{figure}[H]
 	\centering	
 	\begin{subfigure}{0.5\textwidth}
 		\centering
@@ -337,7 +384,7 @@ Challenges
 	\caption{Non-Linear SVM}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering	
 	\begin{subfigure}{0.5\textwidth}
 		\centering
@@ -372,7 +419,7 @@ Challenges
 	\caption{Non-Linear SVM - Randomly generated 4 points}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering	
 	\begin{subfigure}{0.5\textwidth}
 		\centering
