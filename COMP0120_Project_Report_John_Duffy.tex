@@ -175,12 +175,73 @@ Importantly, the \emph{dual problem} is only dependent upon $y_i$ and the dot pr
 %
 \clearpage\section{Simulation Study - Linear Binary Classification}
 
-The subject of this project is to consider two different kernels for non-linear classification
+The aim of this simulation study is to gain a deeper understanding of the underlying mathematics, and also an intuitive understanding, of Linear Binary Classification SMVs.
 
 \subsection{Chosen Data Set}
 
+Rather than choosing a large dataset for this project, I decided to do the exact opposite and choose the smallest possible data set necessary to demonstrate the operation of SVMs. The reason for this is because it is easier to gain an understanding of the underlying mathematics, and also an intuitive understanding, when systems are reduced to the bare minimum functionality.
+
+In the case of SVMs, starting with only two data points it is possible to demonstrate the solution of the \emph{dual problem} in $\mathcal{R}^2$ and visualise this on a 2D plot. From this point $\mathbf{w}$ and $b$ are easily determined which can then be used to visualise the \emph{decision boundary} and \emph{margin} on a 2D plot. And then using the \emph{classification function} it is easy to demonstrate the classification of new data points.
+
 
 \subsection{Resulting Optimisation Problem}
+
+The \emph{Dual Problem}:
+
+\begin{equation}
+max\mathcal{L}_D(\alpha) = \sum_{i=1}^{L}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\mathbf{x}_i\cdot\mathbf{x}_j
+\end{equation}
+
+\begin{equation}
+\alpha_i\geq0\text{ }\forall{i}
+\end{equation}
+
+\begin{equation}
+\sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
+
+can be re-stated as the \emph{minimisation} problem:
+
+\begin{equation}
+min\mathcal{L}_D(\alpha) = \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\mathbf{x}_i\cdot\mathbf{x}_j - \sum_{i=1}^{L}\alpha_i
+\end{equation}
+
+\begin{equation}
+\alpha_i\geq0\text{ }\forall{i}
+\end{equation}
+
+\begin{equation}
+\sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
+
+This can be re-stated as[2]:
+\begin{equation}
+min\mathcal{L}_D(\alpha) = \frac{1}{2}\alpha^T\mathbf{H}\alpha - \sum_{i=1}^{L}\alpha_i
+\end{equation}
+
+where $H_ij = y_i y_j \mathbf{x}_i\cdot\mathbf{x}_j$, subject to the same constraints:
+
+\begin{equation}
+\alpha_i\geq0\text{ }\forall{i}
+\end{equation}
+
+\begin{equation}
+\sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
+
+For this $\mathcal{R}^2$ case, the equality constraint can be re-stated as:
+
+\begin{equation}
+\alpha_1 y_i + \alpha_2 y_2 = 0
+\end{equation}
+
+\begin{equation}
+-\alpha_1 + \alpha_2 = 0\text{, or }\alpha_1 = \alpha_2
+\end{equation}
+
+Now, consider the data points $[3.0, 3.0]^T \in \{Class -1\}$, and $[6.0, 6.0]^T \in \{Class +1\}$. These data points and the resultant $\mathcal{L}_D(\alpha)$, having used these data points $\mathbf{w}$ and their classifications $y$ in determining $\mathbf{H}$, are depicted in Figure 4 together with the constraints.
+
+Likewise, consider the data points $[3.0, 6.0]^T \in \{Class -1\}$, and $[6.0, 3.0]^T \in \{Class +1\}$. These data points and the resultant $\mathcal{L}_D(\alpha)$, having used these data points $\mathbf{w}$ and their classifications $y$ in determining $\mathbf{H}$, are depicted in Figure 6, together with the constraints.
 
 
 \subsection{Solution of Optimisation Problem}
