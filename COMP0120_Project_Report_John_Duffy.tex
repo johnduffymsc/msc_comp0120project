@@ -31,7 +31,11 @@ Implementing this process using a method called Support Vector Machines (SVMs), 
 	\caption{Dataset $L$}
 \end{figure}
 
-\section{Mathematical Setting}
+
+%
+% Section
+%
+\clearpage\section{Mathematical Setting}
 
 This section provides a summary of the mathematical setting for SVMs, and is based on \emph{Support Vector Machines Explained} by Tristan Fletcher [2], \emph{CS229 Lecture Notes, Support Vector Machines} by Andrew Ng [3], Aur\'{e}lien G\'{e}ron's \emph{Hands on Machine Learning with Scikit-Learn, Keras \& TensorFlow}[4], R. Berwick's \emph{An Idiot's Guide to Support Vector Machines}[5].
 
@@ -155,7 +159,6 @@ such that:
 \sum_{i=1}^{L}\alpha_i y_i = 0
 \end{equation}
 
-
 So, what have we achieved in going from the \emph{primal problem} to the \emph{dual problem}? We have removed the dependency on $\mathbf{w}$ and $b$ from $\mathcal{L}_D(\alpha)$. We can now maximise $\mathcal{L}_D(\alpha)$, subject to the constraints, and then plug the resultant $\alpha$ into (11) to find $\mathbf{w}$. And subsequenty find $b$.
 
 Importantly, the \emph{dual problem} is only dependent upon $y_i$ and the dot products $\mathbf{x}_i\cdot\mathbf{x}_j$. This can be exploited when considering non-linear classification.
@@ -167,9 +170,10 @@ Importantly, the \emph{dual problem} is only dependent upon $y_i$ and the dot pr
 \subsection{Non-Linear Classification}
 
 
-
-
-\section{Simulation Study}
+%
+% Section
+%
+\clearpage\section{Simulation Study}
 
 The subject of this project is to consider two different kernels for non-linear classification
 
@@ -337,9 +341,6 @@ The subject of this project is to consider two different kernels for non-linear 
 \end{figure}
 
 
-
-
-
 \subsection{Non-Linear Binary Classification}
 
 
@@ -453,33 +454,23 @@ The subject of this project is to consider two different kernels for non-linear 
 	\caption{Non-Linear SVM - Randomly generated 8 points}
 \end{figure}
 
-\section{References}
 
-[1] C. Cortes, V. Vapnik, in Machine Learning, pp. 273-297 (1995).
-
-[2] T. Fletcher, Support Vector Machines Explained, March 1, 2009.
-
-[3] A. Ng, CS229 Lecture Notes Part V, Support Vector Machines.
-
-[4] A. G\'{e}ron, Hands-On Machine Learning with Scikit-Learn, Keras \& TensorFlow, Second Edition.
-
-[5] R. Berwick, An Idiot's Guide to Support Vector Machines.
-
-[6] Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
-
-
-\section{Notes on Project Code}
+%
+% Section
+%
+\clearpage\section{Notes on Project Code}
 
 The code for this project has been implemented in Python. For clarity, particularly for those readers with a MatLab background, is it worth highlighting noteworthy aspects of the coding.
 
 \subsection{Lambda Expressions}
-In Python functions are first class citizens, which means just they can be passed to/from functions in the same manner as variables. This is similar to MatLab function handles. It is sometimes convenient, and clearer, to write a short function as \emph{lambda} expressions, or \emph{anonymous functions}, rather that a write a full function declaration. A \emph{lambda} can also be assigned to a variable.
+In Python, like many \emph{functional} programming languages, functions are \emph{first-class citizens}. This means functions can be passed to/from other functions in the same manner as variables. This is similar to MatLab function handles. It is sometimes convenient, and clearer, to write a short function as \emph{lambda} expressions, or \emph{anonymous functions}, rather that a write a full function declaration. A \emph{lambda} can also be assigned to a variable.
 
 For example, the following function:
 
 \begin{lstlisting}[language=Python]
 	def linear_kernel(xi, xj):
-		# @ is the dot product operator.
+		# The @ operator is the matrix multiplication
+		# and dot product operator.
     		return xi @ xj
 \end{lstlisting}
 
@@ -489,7 +480,13 @@ can be expressed as the following \emph{lambda} expression:
 	linear_kernel = lambda xi, xj: xi @ xj
 \end{lstlisting}
 
-I have used this functionality throughout my code for clarity and brevity.
+An example of using a \emph{lambda} expression anonymously, passing a kernel function as a parameter, is:
+
+\begin{lstlisting}[language=Python]
+	linear_svm.train(X, y, lambda xi, xj: xi @ xj)
+\end{lstlisting}
+
+This functionality has been used throughout the project code for clarity and brevity.
 
 For example, the \emph{dual problem} equation (as a minimisation):
 
@@ -505,9 +502,9 @@ is coded as follows (together with the first and second derivatives):
     d2f = lambda x: H 
 \end{lstlisting}
 
-\subsection{Reimplementation of MatLab Functions}
+These are dimensionless expressions, which means that a vector $\mathbf{x}$ of any size can be used in the expression.
 
-%A number of MatLab functions that were used in previous COMP0120 assignments have been reimplemented in MatLab, specifically backtracking(), steepest_descent() and newton() functions.
+\subsection{Reimplementation of MatLab Functions}
 
 A number of MatLab functions used in previous COMP0120 assignments have been reimplemented in Python, specifically $backtracking()$, $steepest\_descent()$ and $newton()$. The functionality of these functions was tested against the \emph{Rosenbrock} function and the results compared to the \emph{MatLab} results from Assignment 1.
 
@@ -525,6 +522,25 @@ A number of MatLab functions used in previous COMP0120 assignments have been rei
 	\end{subfigure}
 	\caption{Functionality test of $backtracking()$, $steepest\_descent()$ and $newton()$ functions implemented in Python. With a value of $rho = 0.1$, both $steepest\_descent()$ and $newton()$ converge to $[1.0, 1.0]^T$ in the same number of iterations, and taking the same paths, as their \emph{MatLab} equivalent functions.}
 \end{figure}
+
+
+%
+% Section
+%
+\clearpage\section{References}
+
+[1] C. Cortes, V. Vapnik, in Machine Learning, pp. 273-297 (1995).
+
+[2] T. Fletcher, Support Vector Machines Explained, March 1, 2009.
+
+[3] A. Ng, CS229 Lecture Notes Part V, Support Vector Machines.
+
+[4] A. G\'{e}ron, Hands-On Machine Learning with Scikit-Learn, Keras \& TensorFlow, Second Edition.
+
+[5] R. Berwick, An Idiot's Guide to Support Vector Machines.
+
+[6] Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
+
 
 
 \end{document}
