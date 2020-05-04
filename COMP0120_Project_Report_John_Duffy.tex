@@ -1,5 +1,4 @@
 \documentclass[10pt, a4paper,reqno]{amsart}
-%\documentclass[10pt, a4paper,reqno]{amsart}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -35,7 +34,7 @@ Implementing this process using a method called Support Vector Machines (SVMs), 
 
 This section provides a summary of the mathematical setting for SVMs, and is based on \emph{Support Vector Machines Explained} by Tristan Fletcher [2], \emph{CS229 Lecture Notes, Support Vector Machines} by Andrew Ng [3], Aur\'{e}lien G\'{e}ron's \emph{Hands on Machine Learning with Scikit-Learn, Keras \& TensorFlow}[4], R. Berwick's \emph{An Idiot's Guide to Support Vector Machines}[5].
 
-\subsection{Linear Separable Binary Classification}
+\subsection{Linear Binary Classification}
 
 Consider our dataset $L$ with $N$ elements, with each element having two \emph{features}, $x_0$ and $x_1$, i.e. of dimensionality $D = 2$, and being in either Class $-1$ or Class $+1$:
 
@@ -94,7 +93,8 @@ min\frac{1}{2}||\mathbf{w}||^2\text{, such that }y_i(\mathbf{x}_i\cdot\mathbf{w}
 \end{equation}
 
 This is an optimisation problem with a convex quadratic objective function and linear constraints.
-\subsection{Primal Problem}
+
+\subsubsection{Primal Problem}
 
 The Lagrangian of the optimisation problem includes in equation (6) each constraint with it's associated multiplier ($\alpha_i \geq 0, \forall i$):
 
@@ -128,7 +128,7 @@ which yields:
 
 The Lagrangian is called the \emph{primal} form of the optimisation problem, or \emph{primal problem}, indicated by the $P$ subscript, $\mathcal{L}_P$.
 
-\subsection{Dual Problem}
+\subsubsection{Dual Problem}
 
 Whereas the \emph{primal problem} seeks to minimises $\mathcal{L}_P(\mathbf{w}, b, \alpha)$, the \emph{dual problem} seeks to maximise $\mathcal{L}_D(\alpha)$, where $\alpha$ is the $\emph{dual}$ variable[5], using the previously determined relations of equations (11) and (12).
 
@@ -144,56 +144,51 @@ From (12), the final term is zero, so the \emph{dual problem} simplifies to:
 max\mathcal{L}_D(\alpha) = \sum_{i=1}^{L}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\mathbf{x}_i\cdot\mathbf{x}_j
 \end{equation}
 
+such that:
+
 \begin{equation}
-\text{such that }\alpha_i\geq0\text{ }\forall{i}\text{, }\sum_{i=1}^{L}\alpha_i y_i = 0
+\alpha_i\geq0\text{ }\forall{i}
 \end{equation}
 
-So, what have we achieved? We have removed the dependency on $\mathbf{w}$ and $b$ from $\mathcal{L}_D(\alpha)$. We can now maximise $\mathcal{L}_D(\alpha)$, subject to the constraints, and then plug the resultant $\alpha$ into (11) to find $\mathbf{w}$. And subsequenty find $b$.
+\begin{equation}
+\sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
+
+
+So, what have we achieved in going from the \emph{primal problem} to the \emph{dual problem}? We have removed the dependency on $\mathbf{w}$ and $b$ from $\mathcal{L}_D(\alpha)$. We can now maximise $\mathcal{L}_D(\alpha)$, subject to the constraints, and then plug the resultant $\alpha$ into (11) to find $\mathbf{w}$. And subsequenty find $b$.
 
 Importantly, the \emph{dual problem} is only dependent upon $y_i$ and the dot products $\mathbf{x}_i\cdot\mathbf{x}_j$. This can be exploited when considering non-linear classification.
 
+\subsubsection{Hard Margin}
+
+\subsubsection{Soft Margin}
+
 \subsection{Non-Linear Classification}
 
-Kernels?
 
 
-
-
-\subsection{Hard Margin}
-
-\subsection{Soft Margin}
-
-\subsection{Challenge!}
-
-More classes?
-
-Different Penalty Functions?
-
-Algorithms not on syllabus?
 
 \section{Simulation Study}
 
 The subject of this project is to consider two different kernels for non-linear classification
 
-\subsection{Chosen Data Set}
+\subsection{Linear Binary Classification}
 
-%\begin{figure}
-%	\centering	
-%	\includegraphics[width=1.0\textwidth]{iris_sepal.pdf}
-%	\caption{Iris Dataset Sepal Data}
-%\end{figure}
 
-%\begin{figure}
-%	\centering	
-%	\includegraphics[width=1.0\textwidth]{iris_petal.pdf}
-%	\caption{Iris Dataset Petal Data}
-%\end{figure}
+\subsubsection{Chosen Data Set}
 
-Challenges?
 
-How to address?
+\subsubsection{Resulting Optimisation Problem}
 
-\subsection{Resulting Optimisation Problem}
+
+\subsubsection{Solution of Optimisation Problem}
+
+
+\subsubsection{Algorithm 1}
+
+
+\subsubsection{Algorithm 2}
+
 
 \begin{figure}[H]
 	\centering	
@@ -214,6 +209,21 @@ How to address?
 	\centering	
 	\begin{subfigure}{1.0\textwidth}
 		\centering
+		\includegraphics[width=0.75\textwidth]{linear_problem_dual_0.pdf}
+		\caption{Image 1}
+	\end{subfigure}
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[width=0.75\textwidth]{linear_svm_qp_0.pdf}
+		\caption{image 2}
+	\end{subfigure}
+	\caption{Linear SVM}
+\end{figure}
+
+\begin{figure}[H]
+	\centering	
+	\begin{subfigure}{1.0\textwidth}
+		\centering
 		\includegraphics[width=0.75\textwidth]{linear_problem_data_1.pdf}
 		\caption{Image 1}
 	\end{subfigure}
@@ -225,58 +235,31 @@ How to address?
 	\caption{Linear SVM}
 \end{figure}
 
-Convex/Non-Convex
-
-Constrained/Unconstrained
-
-Smooth/Non-Smooth
-
-Linear/Quadratic/Non-Linear
-
-Challenges
-
-
-\section{Solution of Linear Optimisation Problem}
-
-\subsection{Algorithm 1}\hfill
-
 \begin{figure}[H]
 	\centering	
 	\begin{subfigure}{1.0\textwidth}
 		\centering
-		\includegraphics[width=0.75\textwidth]{linear_problem_dual_0.pdf}
+		\includegraphics[width=0.75\textwidth]{linear_problem_dual_1.pdf}
 		\caption{Image 1}
 	\end{subfigure}
 	\begin{subfigure}{1.0\textwidth}
 		\centering
-		\includegraphics[width=0.75\textwidth]{linear_problem_dual_1.pdf}
+		\includegraphics[width=0.75\textwidth]{linear_svm_qp_1.pdf}
 		\caption{image 2}
 	\end{subfigure}
 	\caption{Linear SVM}
 \end{figure}
 
-\subsection{Algorithm 2}\hfill
-
 \begin{figure}[H]
 	\centering	
-	\begin{subfigure}{0.5\textwidth}
+	\begin{subfigure}{1.0\textwidth}
 		\centering
-		\includegraphics[width=1.0\textwidth]{linear_svm_qp_0.pdf}
+		\includegraphics[width=0.75\textwidth]{linear_svm_qp_2.pdf}
 		\caption{Image 1}
-	\end{subfigure}%
-	\begin{subfigure}{0.5\textwidth}
-		\centering
-		\includegraphics[width=1.0\textwidth]{linear_svm_qp_1.pdf}
-		\caption{image 2}
 	\end{subfigure}
-	\begin{subfigure}{0.5\textwidth}
+	\begin{subfigure}{1.0\textwidth}
 		\centering
-		\includegraphics[width=1.0\textwidth]{linear_svm_qp_2.pdf}
-		\caption{Image 1}
-	\end{subfigure}%
-	\begin{subfigure}{0.5\textwidth}
-		\centering
-		\includegraphics[width=1.0\textwidth]{linear_svm_qp_3.pdf}
+		\includegraphics[width=0.75\textwidth]{linear_svm_qp_3.pdf}
 		\caption{image 2}
 	\end{subfigure}
 	\caption{Linear SVM}
@@ -353,11 +336,26 @@ Challenges
 \end{figure}
 
 
-\section{Solution of Non-Linear Optimisation Problem}
 
-\subsection{Algorithm 1}\hfill
 
-\subsection{Algorithm 2}\hfill
+
+\subsection{Non-Linear Binary Classification}
+
+
+\subsubsection{Chosen Data Set}
+
+
+\subsubsection{Resulting Optimisation Problem}
+
+
+\subsubsection{Solution of Optimisation Problem}
+
+
+\subsubsection{Algorithm 1}
+
+
+\subsubsection{Algorithm 2}
+
 
 \begin{figure}[H]
 	\centering	
@@ -468,4 +466,22 @@ Challenges
 
 [6] Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
 
+
+%\section{Notes on Project Code}
+%\subsection{Implementation in Python}
+%The code for this project has been implemented in Python.
+%In Python functions are first class citizens, which means just they can be passed to/from functions in the same manner as variables. This is similar to %MatLab function handles. It is sometimes convenient, and clearer, to write a short function as \emph{lambda} expressions, or \emph{anonymous %function}, rather that a write a full function declaration. A \emph{lambda} can be assigned to a variable.
+%For example:
+%\begin{lstlisting}[language=Python]
+%def kernel_linear(xi, xj):
+%    return np.dot(xi, xj)
+%is the same as the following:
+%\end{lstlisting}
+%kernel_linear = lambda xi, xj: np.dot(xi, xj)
+%An example of using a lambda anonymously is as follows, which passes a kernel function as a parameter but without first assinging it to a variable:
+%classifier.train(X, y, lambda xi, xj: np.dot(xi, xj))
+%I have used this functionality throughout my code for clarity and brevity.
+
 \end{document}
+
+
