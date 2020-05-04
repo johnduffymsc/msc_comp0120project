@@ -6,6 +6,7 @@
 \usepackage{float}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{listings}
 
 \title{COMP0120 Project - Support Vector Machines (SVM\MakeLowercase{s})}
 \author{\textbf{John Duffy, Student Number: 19154676}}
@@ -467,20 +468,63 @@ The subject of this project is to consider two different kernels for non-linear 
 [6] Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
 
 
-%\section{Notes on Project Code}
-%\subsection{Implementation in Python}
-%The code for this project has been implemented in Python.
-%In Python functions are first class citizens, which means just they can be passed to/from functions in the same manner as variables. This is similar to %MatLab function handles. It is sometimes convenient, and clearer, to write a short function as \emph{lambda} expressions, or \emph{anonymous %function}, rather that a write a full function declaration. A \emph{lambda} can be assigned to a variable.
-%For example:
-%\begin{lstlisting}[language=Python]
-%def kernel_linear(xi, xj):
-%    return np.dot(xi, xj)
-%is the same as the following:
-%\end{lstlisting}
-%kernel_linear = lambda xi, xj: np.dot(xi, xj)
-%An example of using a lambda anonymously is as follows, which passes a kernel function as a parameter but without first assinging it to a variable:
-%classifier.train(X, y, lambda xi, xj: np.dot(xi, xj))
-%I have used this functionality throughout my code for clarity and brevity.
+\section{Notes on Project Code}
+
+The code for this project has been implemented in Python. For clarity, particularly for those readers with a MatLab background, is it worth highlighting noteworthy aspects of the coding.
+
+\subsection{Lambda Expressions}
+In Python functions are first class citizens, which means just they can be passed to/from functions in the same manner as variables. This is similar to MatLab function handles. It is sometimes convenient, and clearer, to write a short function as \emph{lambda} expressions, or \emph{anonymous functions}, rather that a write a full function declaration. A \emph{lambda} can also be assigned to a variable.
+
+For example:
+
+\begin{lstlisting}[language=Python]
+	def linear_kernel(xi, xj):
+		# @ is the dot product operator.
+    		return xi @ xj
+\end{lstlisting}
+
+is the same as:
+
+\begin{lstlisting}[language=Python]
+	linear_kernel = lambda xi, xj: xi @ xj
+\end{lstlisting}
+
+I have used this functionality throughout my code for clarity and brevity.
+
+For example, the \emph{dual problem} equation (as a minimisation):
+
+\begin{equation}
+\mathcal{L}_D(\alpha) = \frac{1}{2}\alpha^T\mathbf{H}\alpha - \sum_{i=1}^{L}\alpha_i
+\end{equation}
+
+is coded as follows (together with the first and second derivatives):
+
+\begin{lstlisting}[language=Python]
+    f   = lambda x: 0.5 * x @ H @ x - x @ (x / x)
+    df  = lambda x: H @ x - x / x
+    d2f = lambda x: H 
+\end{lstlisting}
+
+\subsection{Reimplementation of MatLab Functions}
+
+%A number of MatLab functions that were used in previous COMP0120 assignments have been reimplemented in MatLab, specifically \emph{backtracking()}, \emph{steepest_descent()} and \emph{newton()} functions.
+
+%To test the functionality of these functions they were tested using the \emph{Rosenbrock} function and the results compared to the \emph{MatLab} results from Assignment 1.
+%\begin{figure}[H]
+%	\centering	
+%	\begin{subfigure}{1.0\textwidth}
+%		\centering
+%		\includegraphics[width=0.75\textwidth]{rosenbrock_0.pdf}
+%		\caption{Image 1}
+%	\end{subfigure}
+%	\begin{subfigure}{1.0\textwidth}
+%		\centering
+%		\includegraphics[width=0.75\textwidth]{rosenbrock_1.pdf}
+%		\caption{image 2}
+%	\end{subfigure}
+%	\caption{Test of Python...}
+%\end{figure}
+
 
 \end{document}
 
