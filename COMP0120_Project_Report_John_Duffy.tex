@@ -475,7 +475,7 @@ The code for this project has been implemented in Python. For clarity, particula
 \subsection{Lambda Expressions}
 In Python functions are first class citizens, which means just they can be passed to/from functions in the same manner as variables. This is similar to MatLab function handles. It is sometimes convenient, and clearer, to write a short function as \emph{lambda} expressions, or \emph{anonymous functions}, rather that a write a full function declaration. A \emph{lambda} can also be assigned to a variable.
 
-For example:
+For example, the following function:
 
 \begin{lstlisting}[language=Python]
 	def linear_kernel(xi, xj):
@@ -483,7 +483,7 @@ For example:
     		return xi @ xj
 \end{lstlisting}
 
-is the same as:
+can be expressed as the following \emph{lambda} expression:
 
 \begin{lstlisting}[language=Python]
 	linear_kernel = lambda xi, xj: xi @ xj
@@ -507,23 +507,24 @@ is coded as follows (together with the first and second derivatives):
 
 \subsection{Reimplementation of MatLab Functions}
 
-%A number of MatLab functions that were used in previous COMP0120 assignments have been reimplemented in MatLab, specifically \emph{backtracking()}, \emph{steepest_descent()} and \emph{newton()} functions.
+%A number of MatLab functions that were used in previous COMP0120 assignments have been reimplemented in MatLab, specifically backtracking(), steepest_descent() and newton() functions.
 
-%To test the functionality of these functions they were tested using the \emph{Rosenbrock} function and the results compared to the \emph{MatLab} results from Assignment 1.
-%\begin{figure}[H]
-%	\centering	
-%	\begin{subfigure}{1.0\textwidth}
-%		\centering
-%		\includegraphics[width=0.75\textwidth]{rosenbrock_0.pdf}
-%		\caption{Image 1}
-%	\end{subfigure}
-%	\begin{subfigure}{1.0\textwidth}
-%		\centering
-%		\includegraphics[width=0.75\textwidth]{rosenbrock_1.pdf}
-%		\caption{image 2}
-%	\end{subfigure}
-%	\caption{Test of Python...}
-%\end{figure}
+A number of MatLab functions used in previous COMP0120 assignments have been reimplemented in Python, specifically $backtracking()$, $steepest\_descent()$ and $newton()$. The functionality of these functions was tested against the \emph{Rosenbrock} function and the results compared to the \emph{MatLab} results from Assignment 1.
+
+\begin{figure}[H]
+	\centering	
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[width=0.75\textwidth]{rosenbrock_0.pdf}
+		\caption{$x0 = [1.2, 1.2]^T$}
+	\end{subfigure}
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[width=0.75\textwidth]{rosenbrock_1.pdf}
+		\caption{$x0 = [-1.2, 1.0]^T$}
+	\end{subfigure}
+	\caption{Functionality test of $backtracking()$, $steepest\_descent()$ and $newton()$ functions implemented in Python. With a value of $rho = 0.1$, both $steepest\_descent()$ and $newton()$ converge to $[1.0, 1.0]^T$ in the same number of iterations, and taking the same paths, as their \emph{MatLab} equivalent functions.}
+\end{figure}
 
 
 \end{document}
