@@ -173,26 +173,23 @@ Importantly, the \emph{dual problem} is only dependent upon $y_i$ and the dot pr
 %
 % Section
 %
-\clearpage\section{Simulation Study}
+\clearpage\section{Simulation Study - Linear Binary Classification}
 
 The subject of this project is to consider two different kernels for non-linear classification
 
-\subsection{Linear Binary Classification}
+\subsection{Chosen Data Set}
 
 
-\subsubsection{Chosen Data Set}
+\subsection{Resulting Optimisation Problem}
 
 
-\subsubsection{Resulting Optimisation Problem}
+\subsection{Solution of Optimisation Problem}
 
 
-\subsubsection{Solution of Optimisation Problem}
+\subsection{Algorithm 1}
 
 
-\subsubsection{Algorithm 1}
-
-
-\subsubsection{Algorithm 2}
+\subsection{Algorithm 2}
 
 
 \begin{figure}[H]
@@ -341,22 +338,31 @@ The subject of this project is to consider two different kernels for non-linear 
 \end{figure}
 
 
-\subsection{Non-Linear Binary Classification}
+\clearpage\section{Simulation Study - Non-Linear Binary Classification}
 
 
-\subsubsection{Chosen Data Set}
+\subsection{Kernels}
 
 
-\subsubsection{Resulting Optimisation Problem}
+\subsection{The Kernel Trick}
 
 
-\subsubsection{Solution of Optimisation Problem}
+\subsection{Chosen Data Set}
 
 
-\subsubsection{Algorithm 1}
+\subsection{Resulting Optimisation Problem}
 
 
-\subsubsection{Algorithm 2}
+\subsection{Solution of Optimisation Problem}
+
+
+\subsection{Algorithm 1}
+
+
+\subsection{Algorithm 2}
+
+
+\subsection{What about $\mathbf{w}$ and $b$?}
 
 
 \begin{figure}[H]
@@ -460,10 +466,10 @@ The subject of this project is to consider two different kernels for non-linear 
 %
 \clearpage\section{Notes on Project Code}
 
-The code for this project has been implemented in Python. For clarity, particularly for those readers with a MatLab background, is it worth highlighting noteworthy aspects of the coding.
+The code for this project has been implemented in Python. For clarity, particularly for those readers with a MatLab background, is it worth highlighting noteworthy aspects of the code.
 
 \subsection{Lambda Expressions}
-In Python, like many \emph{functional} programming languages, functions are \emph{first-class citizens}. This means functions can be passed to/from other functions in the same manner as variables. This is similar to MatLab function handles. It is sometimes convenient, and clearer, to write a short function as \emph{lambda} expressions, or \emph{anonymous functions}, rather that a write a full function declaration. A \emph{lambda} can also be assigned to a variable.
+In Python, like many \emph{functional} programming languages, functions are \emph{first-class citizens}. This means functions can be passed to/from other functions in the same manner as variables. This is similar to MatLab function handles. It is sometimes convenient, and clearer, to write a short functions as \emph{lambda} expressions, or \emph{anonymous functions}, rather that a write a full function declarations. A \emph{lambda} can also be assigned to a variable.
 
 For example, the following function:
 
