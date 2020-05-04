@@ -133,6 +133,21 @@ which yields:
 
 The Lagrangian is called the \emph{primal} form of the optimisation problem, or \emph{primal problem}, indicated by the $P$ subscript, $\mathcal{L}_P$.
 
+The intercept \emph{b} can be determined as follows[2]:
+
+\begin{equation}
+b = \frac{1}{N_S}\sum_{s\in S}(y_s - \sum_{m\in S}\alpha_m y_m \mathbf{x}_m\cdot\mathbf{x}_s)
+\end{equation}
+
+where S is the set of \emph{Support Vectors}.
+
+Subsequent classification of new data $\mathbf{x}^*$is achieved as follows[2]:
+
+\begin{equation}
+y^* = sgn(\mathbf{w}\cdot\mathbf{x}^* + b)
+\end{equation}
+
+
 \subsubsection{Dual Problem}
 
 Whereas the \emph{primal problem} seeks to minimises $\mathcal{L}_P(\mathbf{w}, b, \alpha)$, the \emph{dual problem} seeks to maximise $\mathcal{L}_D(\alpha)$, where $\alpha$ is the $\emph{dual}$ variable[5], using the previously determined relations of equations (11) and (12).
@@ -159,7 +174,7 @@ such that:
 \sum_{i=1}^{L}\alpha_i y_i = 0
 \end{equation}
 
-So, what have we achieved in going from the \emph{primal problem} to the \emph{dual problem}? We have removed the dependency on $\mathbf{w}$ and $b$ from $\mathcal{L}_D(\alpha)$. We can now maximise $\mathcal{L}_D(\alpha)$, subject to the constraints, and then plug the resultant $\alpha$ into (11) to find $\mathbf{w}$. And subsequenty find $b$.
+So, what have we achieved in going from the \emph{primal problem} to the \emph{dual problem}? We have removed the dependency on $\mathbf{w}$ and $b$ from $\mathcal{L}_D(\alpha)$. We can now maximise $\mathcal{L}_D(\alpha)$ with respect to $\alpha$, subject to the constraints, and then plug the resultant $\alpha$ into equation (11) to find $\mathbf{w}$. And subsequenty find $b$ from equation (13).
 
 Importantly, the \emph{dual problem} is only dependent upon $y_i$ and the dot products $\mathbf{x}_i\cdot\mathbf{x}_j$. This can be exploited when considering non-linear classification.
 
@@ -175,7 +190,7 @@ Importantly, the \emph{dual problem} is only dependent upon $y_i$ and the dot pr
 %
 \clearpage\section{Simulation Study - Linear Binary Classification}
 
-The aim of this simulation study is to gain a deeper understanding of the underlying mathematics, and also an intuitive understanding, of Linear Binary Classification SMVs.
+The aim of this simulation study is to gain a deeper understanding of the underlying mathematics, and also a deeper intuitive understanding, of Linear Binary Classification SMVs by considering the simplest possible SVM.
 
 \subsection{Chosen Data Set}
 
@@ -252,105 +267,59 @@ Clearly, in each case, provided $P_1 \neq P_2$, then there is always a vector $P
 
 However, in the SVM sense, provided $P_1 \neq P_2$, then $P_1$ and $P_2$ are \emph{Support Vectors} and therefore the solution $[\alpha_1, \alpha_2]^T$ to the minimisation problem cannot be $[0, 0]^T$. Therefore, for this simplified $\mathcal{L}_D(\alpha)$ minimisation problem we only need to consider the single equality constraint. The problem can be minimised using the \emph{Quadratic Penalty} method.
 
+Consider the previously stated \emph{Dual Problem}:
 
+\begin{equation}
+min\mathcal{L}_D(\alpha) = \frac{1}{2}\alpha^T\mathbf{H}\alpha - \sum_{i=1}^{L}\alpha_i
+\end{equation}
 
+Including the equality constraint as a penalty factor, yields the following:
 
+\begin{equation}
+min\mathcal{L}_D(\alpha) = \frac{1}{2}\alpha^T\mathbf{H}\alpha - \sum_{i=1}^{L}\alpha_i - \frac{\mu}{2}(y\cdot\alpha)^2
+\end{equation}
 
+Minimising $\mathcal{L}_D(\alpha)$ using \emph{Steepest Descent} with \emph{backtracking}, with parameters of \emph{rho = 0.1}, $\mu = 500$ and $x_0 = [1, 1]^T$, and using equations (11) and (13), produces the following results, which are also depicted in Figures 5 and 7.
 
-
-
-\begin{verbatim}
-Itertions:
- 115
-Alphas:
- [0.12311629 0.11711603]
-Support Vectors:
- [[3. 3.]
- [6. 6.]]
-w:
- [0.33334727 0.33334727]
-b:
- -3.0001254473834473
-Margin:
- 2.121231642573227
-\end{verbatim}
-
+For $P_1 = [3.0, 3.0], P_2 = [6.0, 6.0]^T$:
 
 \begin{verbatim}
-Itertions:
- 8
-Alphas:
- [0.11111112 0.11111112]
-Support Vectors:
- [[3. 6.]
- [6. 3.]]
-w:
- [ 0.33333336 -0.33333336]
-b:
- 0.0
-Margin:
- 2.121320173854028
+
+Itertions: 115
+Alphas: [0.12311629 0.11711603]
+Support Vectors: [[3. 3.][6. 6.]]
+w: [0.33334727 0.33334727]
+b: -3.0001254473834473
+Margin: 2.121231642573227
+
 \end{verbatim}
 
-
-
-
-
-\subsection{Algorithm 1}
+For $P_1 = [3.0, 6.0], P_2 = [6.0, 3.0]^T$:
 
 \begin{verbatim}
-Itertions:
- 1253
-Alphas:
- [0.04104399 0.04104399 0.04104399 0.11713205]
-Support Vectors:
- [[2. 4.]
- [3. 3.]
- [4. 2.]
- [6. 6.]]
-w:
- [0.3333964 0.3333964]
-b:
- -3.000473004866972
-Margin:
- 2.1209190615442166
+
+Itertions: 8
+Alphas: [0.11111112 0.11111112]
+Support Vectors: [[3. 6.][6. 3.]]
+w: [0.33333336 -0.33333336]
+b: 0.0
+Margin: 2.121320173854028
+
 \end{verbatim}
-
-
-\begin{verbatim}
-Itertions:
- 1522
-Alphas:
- [0.11111534 0.03697217 0.037038   0.03710384]
-Support Vectors:
- [[3. 6.]
- [5. 2.]
- [6. 3.]
- [7. 4.]]
-w:
- [ 0.33346966 -0.33321838]
-b:
- -0.0011467909155819522
-Margin:
- 2.1212521606593167
-\end{verbatim}
-
-\subsection{Algorithm 2}
-
 
 \begin{figure}[H]
 	\centering	
 	\begin{subfigure}{1.0\textwidth}
 		\centering
 		\includegraphics[width=0.75\textwidth]{linear_problem_data_0.pdf}
-		\caption{$P_1 = [3.0, 3.0]^T \in \{-1\}, P_2 = [6.0, 6.0]^T \in \{+1\}$}
+		\caption{$P_1 = [3.0, 3.0]^T, P_2 = [6.0, 6.0]^T$}
 	\end{subfigure}
 	\begin{subfigure}{1.0\textwidth}
 		\centering
 		\includegraphics[width=0.75\textwidth]{linear_problem_dual_0.pdf}
 		\caption{Resultant $\mathcal{L}_D(\alpha)$ and constraints.}
 	\end{subfigure}
-	\caption{Two data points are used to determine the \emph{convex} minimisation problem $\mathcal{L}_D(\alpha)$.}
+	\caption{$P_1$ and $P_2$, together with their classification $y$, are used to determine the \emph{convex} minimisation problem $\mathcal{L}_D(\alpha)$ using equation (25).}
 \end{figure}
 
 \begin{figure}[H]
@@ -358,14 +327,15 @@ Margin:
 	\begin{subfigure}{1.0\textwidth}
 		\centering
 		\includegraphics[width=0.75\textwidth]{linear_problem_solv_0.pdf}
-		\caption{Image 1}
+		\caption{Quadratic Penalty Minimisation - Iterations: 115 Alphas: $[0.12311629 0.11711603]^T$.}
 	\end{subfigure}
 	\begin{subfigure}{1.0\textwidth}
 		\centering
 		\includegraphics[width=0.75\textwidth]{linear_svm_qp_0.pdf}
-		\caption{image 2}
+		\caption{Subsequent classification of 2000 random data points.}
 	\end{subfigure}
-	\caption{}
+	\caption{Substituting $[\alpha_1, \alpha_2]^T$ from the Quadratic Penalty minimisation into equation (11) yields $\mathbf{w}$:
+ [0.33334727 0.33334727], from which the Margin: 2.121231642573227 can be determined. The value of b: -3.0001254473834473 is determined from equation (13). The subsequent classification of new random data is determined using equation (14).}
 \end{figure}
 
 \begin{figure}[H]
@@ -373,14 +343,14 @@ Margin:
 	\begin{subfigure}{1.0\textwidth}
 		\centering
 		\includegraphics[width=0.75\textwidth]{linear_problem_data_1.pdf}
-		\caption{$[3.0, 6.0]^T \in \{-1\}, [6.0, 3.0]^T \in \{+1\}$}
+		\caption{$P_1 = [3.0, 6.0]^T, P_2 = [6.0, 3.0]^T$}
 	\end{subfigure}
 	\begin{subfigure}{1.0\textwidth}
 		\centering
 		\includegraphics[width=0.75\textwidth]{linear_problem_dual_1.pdf}
 		\caption{Resultant $\mathcal{L}_D(\alpha)$ and constraints.}
 	\end{subfigure}
-	\caption{Two data points are used to determine the \emph{convex} minimisation problem $\mathcal{L}_D(\alpha)$.}
+	\caption{$P_1$ and $P_2$, together with their classification $y$, are used to determine the \emph{convex} minimisation problem $\mathcal{L}_D(\alpha)$ using equation (25).}
 \end{figure}
 
 \begin{figure}[H]
@@ -388,14 +358,15 @@ Margin:
 	\begin{subfigure}{1.0\textwidth}
 		\centering
 		\includegraphics[width=0.75\textwidth]{linear_problem_solv_1.pdf}
-		\caption{Image 1}
+		\caption{Quadratic Penalty Minimisation - Iterations: 8 Alphas: $[0.11111112 0.11111112]^T$.}
 	\end{subfigure}
 	\begin{subfigure}{1.0\textwidth}
 		\centering
 		\includegraphics[width=0.75\textwidth]{linear_svm_qp_1.pdf}
-		\caption{image 2}
+		\caption{Subsequent classification of 2000 random data points.}
 	\end{subfigure}
-	\caption{Linear SVM}
+	\caption{Substituting $[\alpha_1, \alpha_2]^T$ from the Quadratic Penalty minimisation into equation (11) yields $\mathbf{w}$:
+ [0.33333336 -0.33333336], from which the Margin: 2.121320173854028 can be determined. The value of b: 0.0 is determined from equation (13). The subsequent classification of new random data is determined using equation (14).}
 \end{figure}
 
 \begin{figure}[H]
@@ -403,14 +374,14 @@ Margin:
 	\begin{subfigure}{1.0\textwidth}
 		\centering
 		\includegraphics[width=0.75\textwidth]{linear_svm_qp_2.pdf}
-		\caption{Image 1}
+		\caption{Iterations: 1253 Alphas: [0.04104399 0.04104399 0.04104399 0.11713205] Support Vectors: [[2. 4.][3. 3.][4. 2.][6. 6.]] w: [0.3333964 0.3333964] b: -3.000473004866972 Margin: 2.1209190615442166}
 	\end{subfigure}
 	\begin{subfigure}{1.0\textwidth}
 		\centering
 		\includegraphics[width=0.75\textwidth]{linear_svm_qp_3.pdf}
-		\caption{image 2}
+		\caption{Itertions: 1522 Alphas: [0.11111534 0.03697217 0.037038   0.03710384] Support Vectors: [[3. 6.][5. 2.][6. 3.][7. 4.]] w: [0.33346966 -0.33321838] b: -0.0011467909155819522 Margin: 2.1212521606593167}
 	\end{subfigure}
-	\caption{Linear SVM}
+	\caption{Quadratic Penalty method minimisation of $\mathcal{L}_D(\alpha)$, and subsequent classification of 2000 new random data points.}
 \end{figure}
 
 \begin{figure}[H]
@@ -418,34 +389,34 @@ Margin:
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_2_0.pdf}
-		\caption{Image 1}
+		\caption{Random $P_1, P_2$}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_2_1.pdf}
-		\caption{image 2}
+		\caption{Random $P_1, P_2$}
 	\end{subfigure}
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_2_2.pdf}
-		\caption{Image 1}
+		\caption{Random $P_1, P_2$}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_2_3.pdf}
-		\caption{image 2}
+		\caption{Random $P_1, P_2$}
 	\end{subfigure}
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_2_4.pdf}
-		\caption{Image 1}
+		\caption{Random $P_1, P_2$}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_2_5.pdf}
-		\caption{image 2}
+		\caption{Random $P_1, P_2$}
 	\end{subfigure}
-	\caption{Linear SVM - Randomly generated 2 points}
+	\caption{Quadratic Penalty method minimisation of $\mathcal{L}_D(\alpha)$ generated from two randomly generated data points $P_1$ and $P_2$, and the subsequent classification of 2000 new random data points.}
 \end{figure}
 
 \begin{figure}[H]
@@ -453,34 +424,34 @@ Margin:
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_3_0.pdf}
-		\caption{Image 1}
+		\caption{Random $P_1, P_2, P_3$}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_3_1.pdf}
-		\caption{image 2}
+		\caption{Random $P_1, P_2, P_3$}
 	\end{subfigure}
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_3_2.pdf}
-		\caption{Image 1}
+		\caption{Random $P_1, P_2, P_3$}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_3_3.pdf}
-		\caption{image 2}
+		\caption{Random $P_1, P_2, P_3$}
 	\end{subfigure}
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_3_4.pdf}
-		\caption{Image 1}
+		\caption{Random $P_1, P_2, P_3$}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{linear_svm_rand_qp_3_5.pdf}
-		\caption{image 2}
+		\caption{Random $P_1, P_2, P_3$}
 	\end{subfigure}
-	\caption{Linear SVM - Randomly generated 3 points}
+	\caption{Quadratic Penalty method minimisation of $\mathcal{L}_D(\alpha)$ generated from three randomly generated data points $P_1$, $P_2$ and $P_3$, and the subsequent classification of 2000 new random data points.}
 \end{figure}
 
 
