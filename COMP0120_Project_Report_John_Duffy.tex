@@ -184,27 +184,68 @@ So, what have we achieved in going from the \emph{primal problem} to the \emph{d
 
 Importantly, the \emph{dual problem} is only dependent upon $y_i$ and the dot products $\mathbf{x}_i\cdot\mathbf{x}_j$. This can be exploited when considering non-linear classification.
 
-
 % Subsection
-\subsection{Hard Margin}
+\subsection{Non-Linear Binary Classification}
 
+Simply put, non-linear binary classification is the classification of data which is not \emph{linearly separable} into one of two classes. And the basic idea is to map a feature space $\mathbf{x}$, which is not \emph{linearly separable}, into a feature space $\phi(\mathbf{x})$ which is.
 
-% Subsection
-\subsection{Soft Margin}
+So, the \emph{Dual Problem} becomes:
 
+\begin{equation}
+max\mathcal{L}_D(\alpha) = \sum_{i=1}^{L}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\phi(\mathbf{x}_i)\cdot\phi(\mathbf{x}_j)
+\end{equation}
 
-% Subsection
-\subsection{Non-Linear Classification}
+\begin{equation}
+0\leq\alpha_i\leq C
+\end{equation}
 
+\begin{equation}
+\sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
 
-% Subsubsection
-\subsubsection{Kernels}
+where $C$ is a misclassification factor.
+
+The trouble is $\phi(\mathbf{x})$ and $\phi(\mathbf{x}_i)\cdot\phi(\mathbf{x}_j)$ may be expensive to calculate. This is where the \emph{Kernel Trick} comes in (see below), which enables us to do the following:
+
+\begin{equation}
+max\mathcal{L}_D(\alpha) = \sum_{i=1}^{L}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\mathcal{K}(\mathbf{x}_i\cdot\mathbf{x}_j)
+\end{equation}
+
+\begin{equation}
+0\leq\alpha_i\leq C
+\end{equation}
+
+\begin{equation}
+\sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
+
+where $\mathcal{K}(\mathbf{x}_i\cdot\mathbf{x}_j)$ is the \emph{kernel function}.
 
 
 % Subsubsection
 \subsubsection{The Kernel Trick}
 
+This {Kernel Trick} recognises that for a valid Kernel:
 
+\begin{equation}
+\mathcal{K}(\mathbf{x}_i, \mathbf{x}_j) = \phi(\mathbf{x}_i)\cdot\phi(\mathbf{x}_j)
+\end{equation}
+
+So, there is no need to calculate  $\phi(\mathbf{x})$ or $\phi(\mathbf{x}_i)\cdot\phi(\mathbf{x}_j)$.
+
+But what is a valid kernel? By Mercer, as described in [3], it is necessary and sufficient for a kernel function $\mathcal{K}$ to be a valid kernel if the corresponding $\mathcal{K}$ matrix is positive semi-definite.
+
+
+% Subsubsection
+\subsubsection{Kernel Functions}
+
+An example of a valid kernel is the \emph{Radial Bias Kernel}, also known as the \emph{Gaussian Kernel}:
+
+\begin{equation}
+\mathcal{K}(\mathbf{x}_i, \mathbf{x}_j) = e^{-\left(\frac{||\mathbf{x}_i - \mathbf{x}_j||^2}{2\sigma^2}\right)}
+\end{equation}
+
+This kernel function has been used in the Non-Linear Binary Classification Study.
 
 
 %
@@ -514,7 +555,7 @@ It is always possible to draw a straight line to separate 3 data points of 2 cla
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{non_linear_svm_qp_3.pdf}
-		\caption{Non-Linearly Separable.}
+		\caption{Only Non-Linearly Separable.}
 	\end{subfigure}
 	\caption{The 4 data points of 2 classes are not always Linearly Separable.}
 \end{figure}
@@ -522,117 +563,107 @@ It is always possible to draw a straight line to separate 3 data points of 2 cla
 % Subsection
 \subsection{Resulting Optimisation Problem}
 
-The \emph{Dual Problem}:
+The \emph{Dual Problem} for non-linear classification:
 
 \begin{equation}
-max\mathcal{L}_D(\alpha) = \sum_{i=1}^{L}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\mathbf{x}_i\cdot\mathbf{x}_j
+max\mathcal{L}_D(\alpha) = \sum_{i=1}^{L}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\phi(\mathbf{x}_i)\cdot\phi(\mathbf{x}_j)
 \end{equation}
 
 \begin{equation}
-\alpha_i\geq0\text{ }\forall{i}
-\end{equation}
-
-\begin{equation}
-\sum_{i=1}^{L}\alpha_i y_i = 0
-\end{equation}
-
-can be re-stated as the \emph{minimisation} problem:
-
-\begin{equation}
-min\mathcal{L}_D(\alpha) = \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\mathbf{x}_i\cdot\mathbf{x}_j - \sum_{i=1}^{L}\alpha_i
-\end{equation}
-
-\begin{equation}
-\alpha_i\geq0\text{ }\forall{i}
+0\leq\alpha_i\leq C
 \end{equation}
 
 \begin{equation}
 \sum_{i=1}^{L}\alpha_i y_i = 0
 \end{equation}
 
-This can be re-stated as[2]:
+where $\phi(\mathbf{x})$ is the non-linear mapping and $C$ is the misclassification factor, can be re-stated as the minimisation problem:
+
+\begin{equation}
+min\mathcal{L}_D(\alpha) = \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\phi(\mathbf{x}_i)\cdot\phi(\mathbf{x}_j) - \sum_{i=1}^{L}\alpha_i
+\end{equation}
+
+\begin{equation}
+0\leq\alpha_i\leq C
+\end{equation}
+
+\begin{equation}
+\sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
+
+Which, because of the \emph{Kernel Trick}, can be re-stated as:
+
+\begin{equation}
+min\mathcal{L}_D(\alpha) = \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\mathcal{K}(\mathbf{x}_i\cdot\mathbf{x}_j) - \sum_{i=1}^{L}\alpha_i
+\end{equation}
+
+\begin{equation}
+0\leq\alpha_i\leq C
+\end{equation}
+
+\begin{equation}
+\sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
+
+where $\mathcal{K}(\mathbf{x}_i\cdot\mathbf{x}_j)$ is the \emph{Kernel} function.
+
+In a similar manner to the linear case, this can be re-stated as[2]:
 \begin{equation}
 min\mathcal{L}_D(\alpha) = \frac{1}{2}\alpha^T\mathbf{H}\alpha - \sum_{i=1}^{L}\alpha_i
 \end{equation}
 
-where $H_ij = y_i y_j \mathbf{x}_i\cdot\mathbf{x}_j$, subject to the same constraints:
+where $H_ij = y_i y_j \mathcal{K}(\mathbf{x}_i\cdot\mathbf{x}_j)$, subject to the constraints:
 
 \begin{equation}
-\alpha_i\geq0\text{ }\forall{i}
+0\leq\alpha_i\leq C
 \end{equation}
 
 \begin{equation}
 \sum_{i=1}^{L}\alpha_i y_i = 0
 \end{equation}
-
-For this \emph{Dual Problem} in $\mathcal{R}^2$, the equality constraint can be re-stated as:
-
-\begin{equation}
-\alpha_1 y_i + \alpha_2 y_2 = 0
-\end{equation}
-
-\begin{equation}
--\alpha_1 + \alpha_2 = 0\text{, or }\alpha_1 = \alpha_2
-\end{equation}
-
-Now, consider the data points $P_1 = [3.0, 3.0]^T \in \{Class -1\}$, and $P_2 = [6.0, 6.0]^T \in \{Class +1\}$. These data points and the resultant $\mathcal{L}_D(\alpha)$, having used these data points $\mathbf{w}$ and their classifications $y$ in determining $\mathbf{H}$, are depicted in Figure 4 together with the constraints.
-
-Likewise, consider the data points $[3.0, 6.0]^T \in \{Class -1\}$, and $[6.0, 3.0]^T \in \{Class +1\}$. These data points and the resultant $\mathcal{L}_D(\alpha)$, having used these data points $\mathbf{w}$ and their classifications $y$ in determining $\mathbf{H}$, are depicted in Figure 6, together with the constraints.
-
-In both cases, we have a \emph{convex} minimisation problem with one \emph{equality} constraint and two \emph{inequality} constraints. The solution to each minimisation problem is a vector $[\alpha_1, \alpha_2]^T$ which is used to determine $\mathbf{w}$ and $b$ in each case.
 
 
 % Subsection
 \subsection{Solution of Optimisation Problem}
 
-Clearly, in each case, provided $P_1 \neq P_2$, then there is always a vector $P_1 - P_2$ which can be bisected, and an orthogonal vector to this can be used as the \emph{decision boundary}. In this simplistic case, the mathematics of SVMs are not required to determine the \emph{decision boundary}. 
-
-However, in the SVM sense, provided $P_1 \neq P_2$, then $P_1$ and $P_2$ are \emph{Support Vectors} and therefore the solution $[\alpha_1, \alpha_2]^T$ to the minimisation problem cannot be $[0, 0]^T$. Therefore, for this simplified $\mathcal{L}_D(\alpha)$ minimisation problem we only need to consider the single equality constraint. The problem can be minimised using the \emph{Quadratic Penalty} method.
-
-Consider the previously stated \emph{Dual Problem}:
-
+Consider the previously stated non-linear \emph{Dual Problem}:
 \begin{equation}
 min\mathcal{L}_D(\alpha) = \frac{1}{2}\alpha^T\mathbf{H}\alpha - \sum_{i=1}^{L}\alpha_i
 \end{equation}
 
-Including the equality constraint as a penalty factor, yields the following:
+where $H_ij = y_i y_j \mathcal{K}(\mathbf{x}_i\cdot\mathbf{x}_j)$, subject to the constraints:
 
 \begin{equation}
-min\mathcal{L}_D(\alpha) = \frac{1}{2}\alpha^T\mathbf{H}\alpha - \sum_{i=1}^{L}\alpha_i - \frac{\mu}{2}(y\cdot\alpha)^2
+0\leq\alpha_i\leq C
 \end{equation}
 
-Minimising $\mathcal{L}_D(\alpha)$ using \emph{Steepest Descent} with \emph{backtracking}, with parameters of \emph{rho = 0.1}, $\mu = 500$ and $x_0 = [1, 1]^T$, and using equations (11) and (13), produces the following results, which are also depicted in Figures 5 and 7.
+\begin{equation}
+\sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
 
-For $P_1 = [3.0, 3.0], P_2 = [6.0, 6.0]^T$:
+The inequality constraint can be stated as two constraints:
 
-\begin{verbatim}
+\begin{equation}
+\alpha_i\geq 0
+\end{equation}
 
-Itertions: 115
-Alphas: [0.12311629 0.11711603]
-Support Vectors: [[3. 3.][6. 6.]]
-w: [0.33334727 0.33334727]
-b: -3.0001254473834473
-Margin: 2.121231642573227
+\begin{equation}
+\alpha_i\leq C
+\end{equation}
 
-\end{verbatim}
+Re-arranging the second constraint yields:
 
-For $P_1 = [3.0, 6.0], P_2 = [6.0, 3.0]^T$:
+\begin{equation}
+\alpha_i - C \leq 0
+\end{equation}
 
-\begin{verbatim}
+Including this inequality constraint for the misclassification factor in the minimisation problem, together with the equality constraint, yields the following \emph{Augmented Lagrangian} minimisation problem:
 
-Itertions: 8
-Alphas: [0.11111112 0.11111112]
-Support Vectors: [[3. 6.][6. 3.]]
-w: [0.33333336 -0.33333336]
-b: 0.0
-Margin: 2.121320173854028
+\begin{equation}
+min\mathcal{L}_D(\alpha) = \frac{1}{2}\alpha^T\mathbf{H}\alpha - \sum_{i=1}^{L}\alpha_i - \frac{\mu}{2}(y\cdot\alpha)^2 + \lambda(\alpha -C)
+\end{equation}
 
-\end{verbatim}
-
-
-% Subsection
-\subsection{What about $\mathbf{w}$ and $b$?}
-
+Minimising the \emph{Augmented Lagrangian} $\mathcal{L}_D(\alpha)$, with a \emph{Gaussian Kernel}, and using \emph{Steepest Descent} with \emph{backtracking} with parameters of \emph{rho = 0.1}, $\mu = 500$, $\lambda=10.0$ and $C=2.0$ (chosen heuristically), produces the non-linear classifications as depicted in Figures 11, 12 and 13.
 
 \begin{figure}[H]
 	\centering	
@@ -666,7 +697,7 @@ Margin: 2.121320173854028
 		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_4_5.pdf}
 		\caption{4 random training points.}
 	\end{subfigure}
-	\caption{Non-Linear SVM - Randomly generated 4 points}
+	\caption{Non-Linear SVM - 4 randomly generated training points, with 2000 subsequently classified random data points.}
 \end{figure}
 
 \begin{figure}[H]
@@ -701,7 +732,7 @@ Margin: 2.121320173854028
 		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_8_5.pdf}
 		\caption{8 random training points.}
 	\end{subfigure}
-	\caption{Non-Linear SVM - Randomly generated 8 points}
+	\caption{Non-Linear SVM - 8 randomly generated training points, with 2000 subsequently classified random data points.}
 \end{figure}
 
 
