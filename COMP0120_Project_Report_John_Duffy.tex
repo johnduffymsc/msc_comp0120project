@@ -15,6 +15,10 @@
 
 \maketitle
 
+
+%
+% Section
+%
 \section{Introduction}
 
 Suppose we have been provided with a dataset $L$ consisting of $N$ elements, each with a $x_0$ and $x_1$ value. Furthermore, suppose we have been provided with a vector $y$ of length $N$ consisting of the values $-1$ and $+1$, where each index of $y$ corresponds to the same index of $L$. So, each element of $L$ has an associated value $-1$ or $+1$.
@@ -99,6 +103,7 @@ min\frac{1}{2}||\mathbf{w}||^2\text{, such that }y_i(\mathbf{x}_i\cdot\mathbf{w}
 
 This is an optimisation problem with a convex quadratic objective function and linear constraints.
 
+% Subsection
 \subsubsection{Primal Problem}
 
 The Lagrangian of the optimisation problem includes in equation (6) each constraint with it's associated multiplier ($\alpha_i \geq 0, \forall i$):
@@ -148,6 +153,7 @@ y^* = sgn(\mathbf{w}\cdot\mathbf{x}^* + b)
 \end{equation}
 
 
+% Subsection
 \subsubsection{Dual Problem}
 
 Whereas the \emph{primal problem} seeks to minimises $\mathcal{L}_P(\mathbf{w}, b, \alpha)$, the \emph{dual problem} seeks to maximise $\mathcal{L}_D(\alpha)$, where $\alpha$ is the $\emph{dual}$ variable[5], using the previously determined relations of equations (11) and (12).
@@ -178,11 +184,27 @@ So, what have we achieved in going from the \emph{primal problem} to the \emph{d
 
 Importantly, the \emph{dual problem} is only dependent upon $y_i$ and the dot products $\mathbf{x}_i\cdot\mathbf{x}_j$. This can be exploited when considering non-linear classification.
 
-\subsubsection{Hard Margin}
 
-\subsubsection{Soft Margin}
+% Subsection
+\subsection{Hard Margin}
 
+
+% Subsection
+\subsection{Soft Margin}
+
+
+% Subsection
 \subsection{Non-Linear Classification}
+
+
+% Subsubsection
+\subsubsection{Kernels}
+
+
+% Subsubsection
+\subsubsection{The Kernel Trick}
+
+
 
 
 %
@@ -190,15 +212,17 @@ Importantly, the \emph{dual problem} is only dependent upon $y_i$ and the dot pr
 %
 \clearpage\section{Simulation Study - Linear Binary Classification}
 
-The aim of this simulation study is to gain a deeper understanding of the underlying mathematics, and also a deeper intuitive understanding, of Linear Binary Classification SMVs by considering the simplest possible SVM.
+The aim of this simulation study is to gain a deeper understanding of the underlying mathematics, and also a deeper intuitive understanding, of Linear Binary Classification SMVs by considering the simplest possible linear SVM.
 
+% Subsection
 \subsection{Chosen Data Set}
 
-Rather than choosing a large dataset for this project, I decided to do the exact opposite and choose the smallest possible data set necessary to demonstrate the operation of SVMs. The reason for this is because it is easier to gain an understanding of the underlying mathematics, and also an intuitive understanding, when systems are reduced to the bare minimum functionality.
+Rather than choosing a large dataset for this project, I decided to do the exact opposite and choose the smallest possible data set necessary to demonstrate the operation of linear SVMs. The reason for this is because it is easier to gain an understanding of the underlying mathematics, and also an intuitive understanding, when systems are reduced to the bare minimum functionality.
 
-In the case of SVMs, starting with only two data points it is possible to demonstrate the solution of the \emph{dual problem} in $\mathcal{R}^2$ and visualise this on a 2D plot. From this point $\mathbf{w}$ and $b$ are easily determined which can then be used to visualise the \emph{decision boundary} and \emph{margin} on a 2D plot. And then using the \emph{classification function} it is easy to demonstrate the classification of new data points.
+In the case of SVMs, starting with only two data points it is possible to demonstrate the solution of the \emph{dual problem} in $\mathcal{R}^2$ and visualise this on a 2D plot. From here $\mathbf{w}$ and $b$ are easily determined which can then be used to visualise the \emph{decision boundary} and \emph{margin} on a 2D plot. And then using the \emph{classification function} it is easy to demonstrate the classification of new data points.
 
 
+% Subsection
 \subsection{Resulting Optimisation Problem}
 
 The \emph{Dual Problem}:
@@ -261,6 +285,7 @@ Likewise, consider the data points $[3.0, 6.0]^T \in \{Class -1\}$, and $[6.0, 3
 In both cases, we have a \emph{convex} minimisation problem with one \emph{equality} constraint and two \emph{inequality} constraints. The solution to each minimisation problem is a vector $[\alpha_1, \alpha_2]^T$ which is used to determine $\mathbf{w}$ and $b$ in each case.
 
 
+% Subsection
 \subsection{Solution of Optimisation Problem}
 
 Clearly, in each case, provided $P_1 \neq P_2$, then there is always a vector $P_1 - P_2$ which can be bisected, and an orthogonal vector to this can be used as the \emph{decision boundary}. In this simplistic case, the mathematics of SVMs are not required to determine the \emph{decision boundary}. 
@@ -455,30 +480,157 @@ Margin: 2.121320173854028
 \end{figure}
 
 
+%
+% Section
+%
 \clearpage\section{Simulation Study - Non-Linear Binary Classification}
 
+Again, the aim of this simulation study is to gain a deeper understanding of the underlying mathematics, and also a deeper intuitive understanding, of Non-Linear Binary Classification SMVs by considering the simplest possible non-linear SVM.
 
-\subsection{Kernels}
-
-
-\subsection{The Kernel Trick}
-
-
+% Subsection
 \subsection{Chosen Data Set}
 
+As per the Linear Binary Classification Study, rather than choosing a large dataset for this project, I decided to do the exact opposite and choose the smallest possible data set necessary to demonstrate the operation of non-linear SVMs. The reason for this is because it is easier to gain an understanding of the underlying mathematics, and also an intuitive understanding, when systems are reduced to the bare minimum functionality.
 
+It is always possible to draw a straight line to separate 3 data points of 2 classes. So, 3 data points of 2 classes are always \emph{linearly separable}. With 4 data points this is not always the case. See Figure 11. So, I decided to initially study the non-linear binary classification of 4 data points as the simplest possible non-linear SVM.
+
+\begin{figure}[H]
+	\centering	
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_qp_0.pdf}
+		\caption{Linearly and Non-Linearly Separable.}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_qp_1.pdf}
+		\caption{Linearly and Non-Linearly Separable.}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_qp_2.pdf}
+		\caption{Linearly and Non-Linearly Separable.}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.0\textwidth]{non_linear_svm_qp_3.pdf}
+		\caption{Non-Linearly Separable.}
+	\end{subfigure}
+	\caption{The 4 data points of 2 classes are not always Linearly Separable.}
+\end{figure}
+
+% Subsection
 \subsection{Resulting Optimisation Problem}
 
+The \emph{Dual Problem}:
 
+\begin{equation}
+max\mathcal{L}_D(\alpha) = \sum_{i=1}^{L}\alpha_i - \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\mathbf{x}_i\cdot\mathbf{x}_j
+\end{equation}
+
+\begin{equation}
+\alpha_i\geq0\text{ }\forall{i}
+\end{equation}
+
+\begin{equation}
+\sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
+
+can be re-stated as the \emph{minimisation} problem:
+
+\begin{equation}
+min\mathcal{L}_D(\alpha) = \frac{1}{2}\sum_{i,j=1}^{L}\alpha_i \alpha_j y_i y_j\mathbf{x}_i\cdot\mathbf{x}_j - \sum_{i=1}^{L}\alpha_i
+\end{equation}
+
+\begin{equation}
+\alpha_i\geq0\text{ }\forall{i}
+\end{equation}
+
+\begin{equation}
+\sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
+
+This can be re-stated as[2]:
+\begin{equation}
+min\mathcal{L}_D(\alpha) = \frac{1}{2}\alpha^T\mathbf{H}\alpha - \sum_{i=1}^{L}\alpha_i
+\end{equation}
+
+where $H_ij = y_i y_j \mathbf{x}_i\cdot\mathbf{x}_j$, subject to the same constraints:
+
+\begin{equation}
+\alpha_i\geq0\text{ }\forall{i}
+\end{equation}
+
+\begin{equation}
+\sum_{i=1}^{L}\alpha_i y_i = 0
+\end{equation}
+
+For this \emph{Dual Problem} in $\mathcal{R}^2$, the equality constraint can be re-stated as:
+
+\begin{equation}
+\alpha_1 y_i + \alpha_2 y_2 = 0
+\end{equation}
+
+\begin{equation}
+-\alpha_1 + \alpha_2 = 0\text{, or }\alpha_1 = \alpha_2
+\end{equation}
+
+Now, consider the data points $P_1 = [3.0, 3.0]^T \in \{Class -1\}$, and $P_2 = [6.0, 6.0]^T \in \{Class +1\}$. These data points and the resultant $\mathcal{L}_D(\alpha)$, having used these data points $\mathbf{w}$ and their classifications $y$ in determining $\mathbf{H}$, are depicted in Figure 4 together with the constraints.
+
+Likewise, consider the data points $[3.0, 6.0]^T \in \{Class -1\}$, and $[6.0, 3.0]^T \in \{Class +1\}$. These data points and the resultant $\mathcal{L}_D(\alpha)$, having used these data points $\mathbf{w}$ and their classifications $y$ in determining $\mathbf{H}$, are depicted in Figure 6, together with the constraints.
+
+In both cases, we have a \emph{convex} minimisation problem with one \emph{equality} constraint and two \emph{inequality} constraints. The solution to each minimisation problem is a vector $[\alpha_1, \alpha_2]^T$ which is used to determine $\mathbf{w}$ and $b$ in each case.
+
+
+% Subsection
 \subsection{Solution of Optimisation Problem}
 
+Clearly, in each case, provided $P_1 \neq P_2$, then there is always a vector $P_1 - P_2$ which can be bisected, and an orthogonal vector to this can be used as the \emph{decision boundary}. In this simplistic case, the mathematics of SVMs are not required to determine the \emph{decision boundary}. 
 
-\subsection{Algorithm 1}
+However, in the SVM sense, provided $P_1 \neq P_2$, then $P_1$ and $P_2$ are \emph{Support Vectors} and therefore the solution $[\alpha_1, \alpha_2]^T$ to the minimisation problem cannot be $[0, 0]^T$. Therefore, for this simplified $\mathcal{L}_D(\alpha)$ minimisation problem we only need to consider the single equality constraint. The problem can be minimised using the \emph{Quadratic Penalty} method.
+
+Consider the previously stated \emph{Dual Problem}:
+
+\begin{equation}
+min\mathcal{L}_D(\alpha) = \frac{1}{2}\alpha^T\mathbf{H}\alpha - \sum_{i=1}^{L}\alpha_i
+\end{equation}
+
+Including the equality constraint as a penalty factor, yields the following:
+
+\begin{equation}
+min\mathcal{L}_D(\alpha) = \frac{1}{2}\alpha^T\mathbf{H}\alpha - \sum_{i=1}^{L}\alpha_i - \frac{\mu}{2}(y\cdot\alpha)^2
+\end{equation}
+
+Minimising $\mathcal{L}_D(\alpha)$ using \emph{Steepest Descent} with \emph{backtracking}, with parameters of \emph{rho = 0.1}, $\mu = 500$ and $x_0 = [1, 1]^T$, and using equations (11) and (13), produces the following results, which are also depicted in Figures 5 and 7.
+
+For $P_1 = [3.0, 3.0], P_2 = [6.0, 6.0]^T$:
+
+\begin{verbatim}
+
+Itertions: 115
+Alphas: [0.12311629 0.11711603]
+Support Vectors: [[3. 3.][6. 6.]]
+w: [0.33334727 0.33334727]
+b: -3.0001254473834473
+Margin: 2.121231642573227
+
+\end{verbatim}
+
+For $P_1 = [3.0, 6.0], P_2 = [6.0, 3.0]^T$:
+
+\begin{verbatim}
+
+Itertions: 8
+Alphas: [0.11111112 0.11111112]
+Support Vectors: [[3. 6.][6. 3.]]
+w: [0.33333336 -0.33333336]
+b: 0.0
+Margin: 2.121320173854028
+
+\end{verbatim}
 
 
-\subsection{Algorithm 2}
-
-
+% Subsection
 \subsection{What about $\mathbf{w}$ and $b$?}
 
 
@@ -486,58 +638,33 @@ Margin: 2.121320173854028
 	\centering	
 	\begin{subfigure}{0.5\textwidth}
 		\centering
-		\includegraphics[width=1.0\textwidth]{non_linear_svm_qp_0.pdf}
-		\caption{Image 1}
-	\end{subfigure}%
-	\begin{subfigure}{0.5\textwidth}
-		\centering
-		\includegraphics[width=1.0\textwidth]{non_linear_svm_qp_1.pdf}
-		\caption{image 2}
-	\end{subfigure}
-	\begin{subfigure}{0.5\textwidth}
-		\centering
-		\includegraphics[width=1.0\textwidth]{non_linear_svm_qp_2.pdf}
-		\caption{Image 1}
-	\end{subfigure}%
-	\begin{subfigure}{0.5\textwidth}
-		\centering
-		\includegraphics[width=1.0\textwidth]{non_linear_svm_qp_3.pdf}
-		\caption{image 2}
-	\end{subfigure}
-	\caption{Non-Linear SVM}
-\end{figure}
-
-\begin{figure}[H]
-	\centering	
-	\begin{subfigure}{0.5\textwidth}
-		\centering
 		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_4_0.pdf}
-		\caption{Image 1}
+		\caption{4 random training points.}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_4_1.pdf}
-		\caption{image 2}
+		\caption{4 random training points.}
 	\end{subfigure}
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_4_2.pdf}
-		\caption{Image 1}
+		\caption{4 random training points.}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_4_3.pdf}
-		\caption{image 2}
+		\caption{4 random training points.}
 	\end{subfigure}
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_4_4.pdf}
-		\caption{Image 1}
+		\caption{4 random training points.}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_4_5.pdf}
-		\caption{image 2}
+		\caption{4 random training points.}
 	\end{subfigure}
 	\caption{Non-Linear SVM - Randomly generated 4 points}
 \end{figure}
@@ -547,32 +674,32 @@ Margin: 2.121320173854028
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_8_0.pdf}
-		\caption{Image 1}
+		\caption{8 random training points.}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_8_1.pdf}
-		\caption{image 2}
+		\caption{8 random training points.}
 	\end{subfigure}
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_8_2.pdf}
-		\caption{Image 1}
+		\caption{8 random training points.}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_8_3.pdf}
-		\caption{image 2}
+		\caption{8 random training points.}
 	\end{subfigure}
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_8_4.pdf}
-		\caption{Image 1}
+		\caption{8 random training points.}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{non_linear_svm_rand_qp_8_5.pdf}
-		\caption{image 2}
+		\caption{8 random training points.}
 	\end{subfigure}
 	\caption{Non-Linear SVM - Randomly generated 8 points}
 \end{figure}
@@ -591,22 +718,28 @@ In Python, like many \emph{functional} programming languages, functions are \emp
 For example, the following function:
 
 \begin{lstlisting}[language=Python]
-	def linear_kernel(xi, xj):
-		# The @ operator is the matrix multiplication
-		# and dot product operator.
-    		return xi @ xj
+    def linear_kernel(xi, xj):
+        return xi @ xj
 \end{lstlisting}
 
 can be expressed as the following \emph{lambda} expression:
 
 \begin{lstlisting}[language=Python]
-	linear_kernel = lambda xi, xj: xi @ xj
+    linear_kernel = lambda xi, xj: xi @ xj
+\end{lstlisting}
+
+Similarly, the non-linear Gaussian kernel can be expressed as:
+
+\begin{lstlisting}[language=Python]
+    gaussian_kernel =
+        lambda xi, xj:
+            np.exp(-0.5 * np.linalg.norm(xi - xj)**2)
 \end{lstlisting}
 
 An example of using a \emph{lambda} expression anonymously, passing a kernel function as a parameter, is:
 
 \begin{lstlisting}[language=Python]
-	linear_svm.train(X, y, lambda xi, xj: xi @ xj)
+    linear_svm.train(X, y, lambda xi, xj: xi @ xj)
 \end{lstlisting}
 
 This functionality has been used throughout the project code for clarity and brevity.
